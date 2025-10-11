@@ -391,6 +391,18 @@ func (s *Service) SearchLocalBusinesses(params LbsParams) (*LbsResponse, error) 
 
 // Helper function to convert map to struct
 func mapToStruct(data map[string]interface{}, result interface{}) error {
+	// Check if the response has a "data" wrapper (like Python SDK)
+	if dataWrapper, exists := data["data"]; exists {
+		// Extract the actual data from the wrapper
+		if dataMap, ok := dataWrapper.(map[string]interface{}); ok {
+			// Add meta_data if it exists in the outer response
+			if metaData, metaExists := data["meta_data"]; metaExists {
+				dataMap["meta_data"] = metaData
+			}
+			data = dataMap
+		}
+	}
+
 	// Convert map to JSON bytes
 	jsonData, err := json.Marshal(data)
 	if err != nil {
