@@ -378,10 +378,10 @@ func TestSDK(t *testing.T) {
 	t.Run("FCL Service", func(t *testing.T) {
 		result, err := sdk.FCL("TechCorp")
 		require.NoError(t, err)
-		assert.Len(t, result.Lookalikes, 2)
-		assert.Equal(t, "DataCorp", result.Lookalikes[0].Name)
-		assert.Equal(t, "datacorp.com", result.Lookalikes[0].Domain)
-		assert.Equal(t, "SoftCorp", result.Lookalikes[1].Name)
+		assert.Len(t, result.Companies, 2)
+		assert.Equal(t, "DataCorp", result.Companies[0].Name)
+		assert.Equal(t, "datacorp.com", result.Companies[0].Domain)
+		assert.Equal(t, "SoftCorp", result.Companies[1].Name)
 	})
 
 	t.Run("ELF Service", func(t *testing.T) {
@@ -483,10 +483,10 @@ func TestSDK(t *testing.T) {
 			CompanyName: "TechCorp",
 		})
 		require.NoError(t, err)
-		assert.Len(t, result.People, 2)
-		assert.Equal(t, "John Doe", result.People[0].FullName)
-		assert.Equal(t, "Software Engineer", result.People[0].JobTitle)
-		assert.Equal(t, "TechCorp", result.People[0].Company)
+		assert.Len(t, result.Peoples, 2)
+		assert.Equal(t, "John Doe", result.Peoples[0].FullName)
+		assert.Equal(t, "Software Engineer", result.Peoples[0].JobTitle)
+		assert.Equal(t, "TechCorp", result.Peoples[0].Company)
 		assert.Equal(t, 2, result.TotalResults)
 		assert.Equal(t, 1, result.Page)
 	})

@@ -53,7 +53,7 @@ func (c *Client) Post(endpoint string, data interface{}) (map[string]interface{}
 	url := c.baseURL + endpoint
 
 	// Convert data to form-encoded format
-	formData, err := c.structToFormData(data)
+	formData, err := c.StructToFormData(data)
 	if err != nil {
 		return nil, fmt.Errorf("failed to convert data to form format: %w", err)
 	}
@@ -89,8 +89,8 @@ func (c *Client) Post(endpoint string, data interface{}) (map[string]interface{}
 	return result, nil
 }
 
-// structToFormData converts a struct to form-encoded data
-func (c *Client) structToFormData(data interface{}) (string, error) {
+// StructToFormData converts a struct to form-encoded data
+func (c *Client) StructToFormData(data interface{}) (string, error) {
 	v := reflect.ValueOf(data)
 	if v.Kind() == reflect.Ptr {
 		v = v.Elem()
@@ -121,6 +121,25 @@ func (c *Client) structToFormData(data interface{}) (string, error) {
 		// Remove omitempty and other options
 		jsonTag = strings.Split(jsonTag, ",")[0]
 
+		// Handle different field types
+		if fieldValue.Kind() == reflect.Slice {
+			// Handle slices (like []string)
+			if fieldValue.Len() > 0 {
+				var sliceValues []string
+				for i := 0; i < fieldValue.Len(); i++ {
+					item := fieldValue.Index(i)
+					if item.Kind() == reflect.String {
+						sliceValues = append(sliceValues, item.String())
+					} else {
+						sliceValues = append(sliceValues, fmt.Sprintf("%v", item.Interface()))
+					}
+				}
+				// Join slice values with commas
+				values.Set(jsonTag, strings.Join(sliceValues, ","))
+			}
+			continue
+		}
+
 		// Convert field value to string
 		var strValue string
 		switch fieldValue.Kind() {
@@ -139,9 +158,37 @@ func (c *Client) structToFormData(data interface{}) (string, error) {
 			strValue = fmt.Sprintf("%v", fieldValue.Interface())
 		}
 
-		// Only add non-empty values
-		if strValue != "" {
-			values.Set(jsonTag, strValue)
+		// Add non-empty values, but handle different types appropriately
+		if fieldValue.Kind() == reflect.String {
+			// For strings, only add if not empty
+			if strValue != "" {
+				values.Set(jsonTag, strValue)
+			}
+		} else if fieldValue.Kind() == reflect.Bool {
+			// For booleans, always add the value (true/false)
+			if strValue != "false" {
+				values.Set(jsonTag, strconv.FormatBool(fieldValue.Bool()))
+			}
+		} else if fieldValue.Kind() >= reflect.Int && fieldValue.Kind() <= reflect.Int64 {
+			// For integers, only add if not zero
+			if fieldValue.Int() != 0 {
+				values.Set(jsonTag, strValue)
+			}
+		} else if fieldValue.Kind() >= reflect.Uint && fieldValue.Kind() <= reflect.Uint64 {
+			// For unsigned integers, only add if not zero
+			if fieldValue.Uint() != 0 {
+				values.Set(jsonTag, strValue)
+			}
+		} else if fieldValue.Kind() >= reflect.Float32 && fieldValue.Kind() <= reflect.Float64 {
+			// For floats, only add if not zero
+			if fieldValue.Float() != 0 {
+				values.Set(jsonTag, strValue)
+			}
+		} else {
+			// For other types, only add if not empty string representation
+			if strValue != "" {
+				values.Set(jsonTag, strValue)
+			}
 		}
 	}
 
