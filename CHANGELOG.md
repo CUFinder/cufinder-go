@@ -31,7 +31,3 @@ All API services implemented, as below:
 - **CSE** - Company Search: Search for companies with advanced filters
 - **PSE** - Person Search: Search for people with advanced filters
 - **LBS** - Local Business Search: Search for local businesses
-
-
-### License
-MIT License - see LICENSE file for details.

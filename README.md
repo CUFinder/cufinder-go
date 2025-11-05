@@ -1,6 +1,19 @@
 # CUFinder Go SDK
 
+[![](https://img.shields.io/badge/repo%20status-Active-28a745)](https://github.com/cufinder/cufinder-go)
+[![License: MIT](https://img.shields.io/badge/License-MIT-514BEE.svg)](https://opensource.org/licenses/MIT)
+[![Go Reference](https://pkg.go.dev/badge/github.com/cufinder/cufinder-go.svg)](https://pkg.go.dev/github.com/cufinder/cufinder-go)
+
 A Go SDK for the CUFinder API that provides access to all company and person enrichment services.
+
+## Table of Contents
+
+- [Installation](#installation)
+- [Usage](#usage)
+- [API Reference](#api-reference)
+- [Error Handling](#error-handling)
+- [Types](#types)
+- [Support](#support)
 
 ## Installation
 
@@ -9,8 +22,6 @@ go get github.com/cufinder/cufinder-go
 ```
 
 ## Usage
-
-### Basic Usage
 
 ```go
 package main
@@ -23,173 +34,295 @@ import (
 )
 
 func main() {
-    // Initialize the SDK
-    sdk := cufinder.NewSDK("your-api-key")
+    // Initialize the client
+    sdk := cufinder.NewSDK("your-api-key-here")
     
-    // Get company domain
-    result, err := sdk.CUF("TechCorp", "US")
-    if err != nil {
-        log.Fatal(err)
-    }
-    
-    fmt.Printf("Domain: %s\n", result.Domain)
+    // Initialize with more options
+    sdk := cufinder.NewSDKWithConfig(cufinder.ClientConfig{
+        APIKey:     "your-api-key-here",
+        BaseURL:    "https://api.cufinder.io/v2",
+        Timeout:    60 * time.Second,
+        MaxRetries: 3,
+    })
 }
 ```
 
-### Advanced Configuration
+## API Reference
+
+This SDK covers all 20 Cufinder API (v2) endpoints:
+
+- **CUF** - [Company Name to Domain](https://apidoc.cufinder.io/apis/company-name-to-domain)
+- **LCUF** - [LinkedIn Company URL Finder](https://apidoc.cufinder.io/apis/company-linkedin-url-finder)
+- **DTC** - [Domain to Company Name](https://apidoc.cufinder.io/apis/domain-to-company-name)
+- **DTE** - [Company Email Finder](https://apidoc.cufinder.io/apis/company-email-finder)
+- **NTP** - [Company Phone Finder](https://apidoc.cufinder.io/apis/company-phone-finder)
+- **REL** - [Reverse Email Lookup](https://apidoc.cufinder.io/apis/reverse-email-lookup)
+- **FCL** - [Company Lookalikes Finder](https://apidoc.cufinder.io/apis/company-lookalikes-finder)
+- **ELF** - [Company Fundraising](https://apidoc.cufinder.io/apis/company-fundraising)
+- **CAR** - [Company Revenue Finder](https://apidoc.cufinder.io/apis/company-revenue-finder)
+- **FCC** - [Company Subsidiaries Finder](https://apidoc.cufinder.io/apis/company-subsidiaries-finder)
+- **FTS** - [Company Tech Stack Finder](https://apidoc.cufinder.io/apis/company-tech-stack-finder)
+- **EPP** - [LinkedIn Profile Enrichment](https://apidoc.cufinder.io/apis/linkedin-profile-enrichment)
+- **FWE** - [LinkedIn Profile Email Finder](https://apidoc.cufinder.io/apis/linkedin-profile-email-finder)
+- **TEP** - [Person Enrichment](https://apidoc.cufinder.io/apis/person-enrichment)
+- **ENC** - [Company Enrichment](https://apidoc.cufinder.io/apis/company-enrichment)
+- **CEC** - [Company Employee Count](https://apidoc.cufinder.io/apis/company-employee-count)
+- **CLO** - [Company Locations](https://apidoc.cufinder.io/apis/company-locations)
+- **CSE** - [Company Search](https://apidoc.cufinder.io/apis/company-search)
+- **PSE** - [Person Search](https://apidoc.cufinder.io/apis/person-search)
+- **LBS** - [Local Business Search (Google Maps Search API)](https://apidoc.cufinder.io/apis/local-business-search-google-maps-search-api)
+
+
+**CUF - Company Name to Domain API**
+
+Returns the official website URL of a company based on its name.
 
 ```go
-import "time"
-
-sdk := cufinder.NewSDKWithConfig(cufinder.ClientConfig{
-    APIKey:     "your-api-key",
-    BaseURL:    "https://api.cufinder.io/v2",
-    Timeout:    30 * time.Second,
-    MaxRetries: 3,
-})
+result, err := sdk.CUF("cufinder", "US")
+if err != nil {
+    log.Fatal(err)
+}
+fmt.Println(result)
 ```
 
-## Services
+**LCUF - Company LinkedIn URL Finder API**
 
-### Company Services
+Finds the official LinkedIn company profile URL from a company name.
 
-#### CUF - Company URL Finder
 ```go
-result, err := sdk.CUF("TechCorp", "US")
-// Returns: domain, query, credit_count
+result, err := sdk.LCUF("cufinder")
+if err != nil {
+    log.Fatal(err)
+}
+fmt.Println(result)
 ```
 
-#### LCUF - LinkedIn Company URL Finder
+**DTC - Domain to Company Name API**
+
+Retrieves the registered company name associated with a given website domain.
+
 ```go
-result, err := sdk.LCUF("TechCorp")
-// Returns: linkedin_url, query, credit_count
+result, err := sdk.DTC("cufinder.io")
+if err != nil {
+    log.Fatal(err)
+}
+fmt.Println(result)
 ```
 
-#### DTC - Domain to Company
+**DTE - Company Email Finder API**
+
+Returns up to five general or role-based business email addresses for a company.
+
 ```go
-result, err := sdk.DTC("techcorp.com")
-// Returns: company_name, query, credit_count
+result, err := sdk.DTE("cufinder.io")
+if err != nil {
+    log.Fatal(err)
+}
+fmt.Println(result)
 ```
 
-#### DTE - Domain to Emails
+**NTP - Company Phone Finder API**
+
+Returns up to two verified phone numbers for a company.
+
 ```go
-result, err := sdk.DTE("techcorp.com")
-// Returns: emails[], query, credit_count
+result, err := sdk.NTP("apple")
+if err != nil {
+    log.Fatal(err)
+}
+fmt.Println(result)
 ```
 
-#### NTP - Name to Phones
+**REL - Reverse Email Lookup API**
+
+Enriches an email address with detailed person and company information.
+
 ```go
-result, err := sdk.NTP("TechCorp")
-// Returns: phones[], query, credit_count
+result, err := sdk.REL("iain.mckenzie@stripe.com")
+if err != nil {
+    log.Fatal(err)
+}
+fmt.Println(result)
 ```
 
-### Person Services
+**FCL - Company Lookalikes Finder API**
 
-#### EPP - Enrich Profile
+Provides a list of similar companies based on an input company's profile.
+
 ```go
-result, err := sdk.EPP("https://linkedin.com/in/john-doe")
-// Returns: person, company, query, credit_count
+result, err := sdk.FCL("apple")
+if err != nil {
+    log.Fatal(err)
+}
+fmt.Println(result)
 ```
 
-#### REL - Reverse Email Lookup
+**ELF - Company Fundraising API**
+
+Returns detailed funding information about a company.
+
 ```go
-result, err := sdk.REL("john.doe@techcorp.com")
-// Returns: person, company, query, credit_count
+result, err := sdk.ELF("cufinder")
+if err != nil {
+    log.Fatal(err)
+}
+fmt.Println(result)
 ```
 
-#### FWE - Find Work Email
+**CAR - Company Revenue Finder API**
+
+Estimates a company's annual revenue based on name.
+
 ```go
-result, err := sdk.FWE("https://linkedin.com/in/john-doe")
-// Returns: email, query, credit_count
+result, err := sdk.CAR("apple")
+if err != nil {
+    log.Fatal(err)
+}
+fmt.Println(result)
 ```
 
-#### TEP - Person Enrichment
+**FCC - Company Subsidiaries Finder API**
+
+Identifies known subsidiaries of a parent company.
+
 ```go
-result, err := sdk.TEP("John Doe", "TechCorp")
-// Returns: person, query, confidence_level, credit_count
+result, err := sdk.FCC("amazon")
+if err != nil {
+    log.Fatal(err)
+}
+fmt.Println(result)
 ```
 
-### Company Intelligence Services
+**FTS - Company Tech Stack Finder API**
 
-#### FCL - Find Company Lookalikes
+Detects the technologies a company uses.
+
 ```go
-result, err := sdk.FCL("TechCorp")
-// Returns: lookalikes[], query, credit_count
+result, err := sdk.FTS("cufinder")
+if err != nil {
+    log.Fatal(err)
+}
+fmt.Println(result)
 ```
 
-#### ELF - Enrich LinkedIn Fundraising
+**EPP - LinkedIn Profile Enrichment API**
+
+Takes a LinkedIn profile URL and returns enriched person and company data.
+
 ```go
-result, err := sdk.ELF("TechCorp")
-// Returns: fundraising, query, credit_count
+result, err := sdk.EPP("linkedin.com/in/iain-mckenzie")
+if err != nil {
+    log.Fatal(err)
+}
+fmt.Println(result)
 ```
 
-#### CAR - Company Annual Revenue
+**FWE - LinkedIn Profile Email Finder API**
+
+Extracts a verified business email address from a LinkedIn profile URL.
+
 ```go
-result, err := sdk.CAR("TechCorp")
-// Returns: revenue, query, credit_count
+result, err := sdk.FWE("linkedin.com/in/iain-mckenzie")
+if err != nil {
+    log.Fatal(err)
+}
+fmt.Println(result)
 ```
 
-#### FCC - Find Company Children
+**TEP - Person Enrichment API**
+
+Returns enriched person data based on full name and company name.
+
 ```go
-result, err := sdk.FCC("TechCorp")
-// Returns: subsidiaries[], query, credit_count
+result, err := sdk.TEP("iain mckenzie", "stripe")
+if err != nil {
+    log.Fatal(err)
+}
+fmt.Println(result)
 ```
 
-#### FTS - Find Tech Stack
+**ENC - Company Enrichment API**
+
+Provides a complete company profile from a company name.
+
 ```go
-result, err := sdk.FTS("TechCorp")
-// Returns: tech_stack, query, credit_count
+result, err := sdk.ENC("cufinder")
+if err != nil {
+    log.Fatal(err)
+}
+fmt.Println(result)
 ```
 
-#### ENC - Company Enrichment
+**CEC - Company Employee Count API**
+
+Returns an estimated number of employees for a company.
+
 ```go
-result, err := sdk.ENC("TechCorp")
-// Returns: company, query, credit_count
+result, err := sdk.CEC("cufinder")
+if err != nil {
+    log.Fatal(err)
+}
+fmt.Println(result)
 ```
 
-#### CEC - Company Employee Countries
+**CLO - Company Locations API**
+
+Returns the known physical office locations of a company.
+
 ```go
-result, err := sdk.CEC("TechCorp")
-// Returns: countries[], total_results, query, credit_count
+result, err := sdk.CLO("apple")
+if err != nil {
+    log.Fatal(err)
+}
+fmt.Println(result)
 ```
 
-#### CLO - Company Locations
-```go
-result, err := sdk.CLO("TechCorp")
-// Returns: locations[], query, credit_count
-```
+**CSE - Company Search API**
 
-### Search Services
+Search for companies by keyword, partial name, industry, location, or other filters.
 
-#### CSE - Company Search
 ```go
 result, err := sdk.CSE(cufinder.CseParams{
-    Name:     "technology",
-    Country:  "US",
-    Industry: "Technology",
-    Page:     1,
+    Name:    "cufinder",
+    Country: "germany",
+    State:   "hamburg",
+    City:    "hamburg",
 })
-// Returns: companies[], total_results, page, query, credit_count
+if err != nil {
+    log.Fatal(err)
+}
+fmt.Println(result)
 ```
 
-#### PSE - Person Search
+**PSE - Person Search API**
+
+Search for people by name, company, job title, location, or other filters.
+
 ```go
 result, err := sdk.PSE(cufinder.PseParams{
-    FullName:    "engineer",
-    CompanyName: "TechCorp",
-    Page:        1,
+    FullName:    "iain mckenzie",
+    CompanyName: "stripe",
 })
-// Returns: people[], total_results, page, query, credit_count
+if err != nil {
+    log.Fatal(err)
+}
+fmt.Println(result)
 ```
 
-#### LBS - Local Business Search
+**LBS - Local Business Search API (Google Maps Search API)**
+
+Search for local businesses by location, industry, or name.
+
 ```go
 result, err := sdk.LBS(cufinder.LbsParams{
-    Name:  "coffee",
-    City:  "San Francisco",
-    Page:  1,
+    Country: "united states",
+    State:   "california",
+    Page:    1,
 })
-// Returns: businesses[], total_results, page, query, credit_count
+if err != nil {
+    log.Fatal(err)
+}
+fmt.Println(result)
 ```
 
 ## Error Handling
@@ -197,22 +330,169 @@ result, err := sdk.LBS(cufinder.LbsParams{
 The SDK returns errors for various scenarios:
 
 ```go
-result, err := sdk.CUF("TechCorp", "US")
+result, err := sdk.CUF("cufinder", "US")
 if err != nil {
-    // Handle error
-    log.Printf("Error: %v", err)
+    // Handle different types of errors
+    switch {
+    case strings.Contains(err.Error(), "401"):
+        // Authentication error - Invalid API key
+        log.Printf("Authentication failed: %v", err)
+    case strings.Contains(err.Error(), "400"):
+        // Credit limit error - Not enough credit
+        log.Printf("Not enough credit: %v", err)
+    case strings.Contains(err.Error(), "404"):
+        // Not found error
+        log.Printf("Not found result: %v", err)
+    case strings.Contains(err.Error(), "422"):
+        // Payload error
+        log.Printf("Payload error: %v", err)
+    case strings.Contains(err.Error(), "429"):
+        // Rate limit exceeded
+        log.Printf("Rate limit exceeded: %v", err)
+    case strings.Contains(err.Error(), "500"):
+        // Server error
+        log.Printf("Server error: %v", err)
+    default:
+        log.Printf("Unknown error: %v", err)
+    }
     return
 }
 ```
 
-## Testing
+## Types
 
-Run the tests:
+The SDK exports comprehensive Go types for all API requests and responses:
 
-```bash
-go test -v
+```go
+// Request parameter types
+type CseParams struct {
+    Name            string
+    Domain          string
+    Country         string
+    State           string
+    City            string
+    Industry        string
+    CompanySize     string
+    Revenue         string
+    EmployeeCount   string
+    Page            int
+}
+
+type PseParams struct {
+    FullName        string
+    FirstName       string
+    LastName        string
+    CompanyName     string
+    CompanyDomain   string
+    JobTitle        string
+    Country         string
+    State           string
+    City            string
+    Page            int
+}
+
+type LbsParams struct {
+    Name            string
+    Country         string
+    State           string
+    City            string
+    Industry        string
+    Page            int
+}
+
+// Response types
+type BaseResponse struct {
+    Query       string `json:"query"`
+    CreditCount int    `json:"credit_count"`
+}
+
+// Model types
+type Company struct {
+    // The Company struct contains all returned company data.
+    Name            string   `json:"name"`
+    Domain          string   `json:"domain"`
+    Website         string   `json:"website"`
+    LinkedinURL     string   `json:"linkedin_url"`
+    Country         string   `json:"country"`
+    State           string   `json:"state"`
+    City            string   `json:"city"`
+    Address         string   `json:"address"`
+    Industry        string   `json:"industry"`
+    CompanySize     string   `json:"company_size"`
+    Revenue         string   `json:"revenue"`
+    EmployeeCount   int      `json:"employee_count"`
+    Subsidiaries    []string `json:"subsidiaries"`
+    TechStack       []string `json:"tech_stack"`
+    Emails          []string `json:"emails"`
+    Phones          []string `json:"phones"`
+    Description     string   `json:"description"`
+    Locations       []CompanyLocation `json:"locations"`
+    FoundedYear     int      `json:"founded_year"`
+    LogoURL         string   `json:"logo_url"`
+}
+
+type Person struct {
+    // The Person struct contains all returned person data.
+    FullName        string   `json:"full_name"`
+    FirstName       string   `json:"first_name"`
+    LastName        string   `json:"last_name"`
+    CompanyName     string   `json:"company_name"`
+    CompanyDomain   string   `json:"company_domain"`
+    JobTitle        string   `json:"job_title"`
+    Country         string   `json:"country"`
+    State           string   `json:"state"`
+    City            string   `json:"city"`
+    Email           string   `json:"email"`
+    Phone           string   `json:"phone"`
+    Description     string   `json:"description"`
+    LinkedInURL     string   `json:"linkedin_url"`
+}
+
+type LookalikeCompany struct {
+    // The LookalikeCompany struct contains all returned lookalike company data.
+    Name            string   `json:"name"`
+    Domain          string   `json:"domain"`
+    Website         string   `json:"website"`
+    LinkedinURL     string   `json:"linkedin_url"`
+    Country         string   `json:"country"`
+    State           string   `json:"state"`
+    City            string   `json:"city"`
+    Address         string   `json:"address"`
+    Industry        string   `json:"industry"`
+    CompanySize     string   `json:"company_size"`
+    Revenue         string   `json:"revenue"`
+    EmployeeCount   int      `json:"employee_count"`
+    Subsidiaries    []string `json:"subsidiaries"`
+    TechStack       []string `json:"tech_stack"`
+    Emails          []string `json:"emails"`
+    Phones          []string `json:"phones"`
+    Description     string   `json:"description"`
+    Locations       []CompanyLocation `json:"locations"`
+    FoundedYear     int      `json:"founded_year"`
+    LogoURL         string   `json:"logo_url"`
+}
+
+type FundraisingInfo struct {
+    // Fundraising fields
+    FundingLastRoundType         string `json:"funding_last_round_type"`
+    FundingAmmountCurrencyCode   string `json:"funding_ammount_currency_code"`
+    FundingMoneyRaised           string `json:"funding_money_raised"`
+    FundingLastRoundInvestorsUrl string `json:"funding_last_round_investors_url"`
+}
+
+type CompanyLocation struct {
+    // The CompanyLocation struct contains all returned company location data.
+    Country    string `json:"country"`
+    State      string `json:"state"`
+    City       string `json:"city"`
+    PostalCode string `json:"postal_code"`
+    Line1      string `json:"line1"`
+    Line2      string `json:"line2"`
+    Latitude   string `json:"latitude"`
+    Longitude  string `json:"longitude"`
+}
 ```
 
-## License
+## Support
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+For support, please open an issue on the [GitHub repository](https://github.com/cufinder/cufinder-go/issues).
