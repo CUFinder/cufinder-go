@@ -423,6 +423,11 @@ type LbsResponse struct {
 	Companies []Company `json:"companies"`
 }
 
+type BcdResponse struct {
+	BaseResponse
+	Customers []string `json:"customers"`
+}
+
 // Parameter types for each service
 type CufParams struct {
 	CompanyName string `json:"company_name"`
@@ -541,4 +546,8 @@ type LbsParams struct {
 	City     string `json:"city,omitempty"`
 	Industry string `json:"industry,omitempty"`
 	Page     int    `json:"page,omitempty"`
+}
+
+type BcdParams struct {
+	Url string `json:"url"`
 }

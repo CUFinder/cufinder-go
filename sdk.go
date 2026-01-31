@@ -183,6 +183,13 @@ func (s *SDK) LBS(params LbsParams) (*LbsResponse, error) {
 	return s.service.SearchLocalBusinesses(params)
 }
 
+// BCD - B2B Customers Finder
+func (s *SDK) BCD(url string) (*BcdResponse, error) {
+	return s.service.ExtractB2BCustomers(BcdParams{
+		Url: url,
+	})
+}
+
 // GetClient returns the underlying HTTP client for advanced usage
 func (s *SDK) GetClient() *Client {
 	return s.client

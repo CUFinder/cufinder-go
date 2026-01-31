@@ -389,6 +389,25 @@ func (s *Service) SearchLocalBusinesses(params LbsParams) (*LbsResponse, error) 
 	return &result, nil
 }
 
+// BCD Service - B2B Customers Finder
+func (s *Service) ExtractB2BCustomers(params BcdParams) (*BcdResponse, error) {
+	if params.Url == "" {
+		return nil, fmt.Errorf("url is required")
+	}
+
+	response, err := s.client.Post("/bcd", params)
+	if err != nil {
+		return nil, fmt.Errorf("BCD service error: %w", err)
+	}
+
+	var result BcdResponse
+	if err := mapToStruct(response, &result); err != nil {
+		return nil, fmt.Errorf("failed to parse response: %w", err)
+	}
+
+	return &result, nil
+}
+
 // Helper function to convert map to struct
 func mapToStruct(data map[string]interface{}, result interface{}) error {
 	// Check if the response has a "data" wrapper (like Python SDK)
