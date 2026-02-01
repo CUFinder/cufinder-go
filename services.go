@@ -484,6 +484,25 @@ func (s *Service) GetCompanyMissionStatement(params CscParams) (*CscResponse, er
 	return &result, nil
 }
 
+// CSN Service - Company Snapshot
+func (s *Service) GetCompanySnapshot(params CsnParams) (*CsnResponse, error) {
+	if params.Url == "" {
+		return nil, fmt.Errorf("url is required")
+	}
+
+	response, err := s.client.Post("/csn", params)
+	if err != nil {
+		return nil, fmt.Errorf("CSN service error: %w", err)
+	}
+
+	var result CsnResponse
+	if err := mapToStruct(response, &result); err != nil {
+		return nil, fmt.Errorf("failed to parse response: %w", err)
+	}
+
+	return &result, nil
+}
+
 // Helper function to convert map to struct
 func mapToStruct(data map[string]interface{}, result interface{}) error {
 	// Check if the response has a "data" wrapper (like Python SDK)

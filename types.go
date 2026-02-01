@@ -448,6 +448,18 @@ type CscResponse struct {
 	MissionStatement string `json:"mission_statement"`
 }
 
+type CsnSnapshotInfo struct {
+	ICP              string   `json:"icp,omitempty"`
+	TargetIndustries []string `json:"target_industries,omitempty"`
+	TargetPersonas   []string `json:"target_personas,omitempty"`
+	ValueProposition string   `json:"value_proposition,omitempty"`
+}
+
+type CsnResponse struct {
+	BaseResponse
+	CompanySnapshot CsnSnapshotInfo `json:"company_snapshot"`
+}
+
 // Parameter types for each service
 type CufParams struct {
 	CompanyName string `json:"company_name"`
@@ -585,5 +597,9 @@ type CbcParams struct {
 }
 
 type CscParams struct {
+	Url string `json:"url"`
+}
+
+type CsnParams struct {
 	Url string `json:"url"`
 }

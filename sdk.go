@@ -218,6 +218,13 @@ func (s *SDK) CSC(url string) (*CscResponse, error) {
 	})
 }
 
+// CSN - Company Snapshot
+func (s *SDK) CSN(url string) (*CsnResponse, error) {
+	return s.service.GetCompanySnapshot(CsnParams{
+		Url: url,
+	})
+}
+
 // GetClient returns the underlying HTTP client for advanced usage
 func (s *SDK) GetClient() *Client {
 	return s.client
