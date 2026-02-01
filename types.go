@@ -443,6 +443,11 @@ type CbcResponse struct {
 	BusinessType string `json:"business_type"`
 }
 
+type CscResponse struct {
+	BaseResponse
+	MissionStatement string `json:"mission_statement"`
+}
+
 // Parameter types for each service
 type CufParams struct {
 	CompanyName string `json:"company_name"`
@@ -576,5 +581,9 @@ type IscParams struct {
 }
 
 type CbcParams struct {
+	Url string `json:"url"`
+}
+
+type CscParams struct {
 	Url string `json:"url"`
 }

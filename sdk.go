@@ -211,6 +211,13 @@ func (s *SDK) CBC(url string) (*CbcResponse, error) {
 	})
 }
 
+// CSC - Company Mission Statement
+func (s *SDK) CSC(url string) (*CscResponse, error) {
+	return s.service.GetCompanyMissionStatement(CscParams{
+		Url: url,
+	})
+}
+
 // GetClient returns the underlying HTTP client for advanced usage
 func (s *SDK) GetClient() *Client {
 	return s.client
