@@ -49,7 +49,7 @@ func main() {
 
 ## API Reference
 
-This SDK covers all 20 Cufinder API (v2) endpoints:
+This SDK covers all 28 Cufinder API (v2) endpoints:
 
 - **CUF** - [Company Name to Domain](https://apidoc.cufinder.io/apis/company-name-to-domain)
 - **LCUF** - [LinkedIn Company URL Finder](https://apidoc.cufinder.io/apis/company-linkedin-url-finder)
@@ -71,6 +71,14 @@ This SDK covers all 20 Cufinder API (v2) endpoints:
 - **CSE** - [Company Search](https://apidoc.cufinder.io/apis/company-search)
 - **PSE** - [Person Search](https://apidoc.cufinder.io/apis/person-search)
 - **LBS** - [Local Business Search (Google Maps Search API)](https://apidoc.cufinder.io/apis/local-business-search-google-maps-search-api)
+- **BCD** - [B2B Customers Finder](https://apidoc.cufinder.io/apis/b2b-customers-finder)
+- **CCP** - [Company Career Page Finder](https://apidoc.cufinder.io/apis/company-career-page-finder)
+- **ISC** - [Company Saas Checker](https://apidoc.cufinder.io/apis/company-saas-checker)
+- **CBC** - [Company B2B or B2C Checker](https://apidoc.cufinder.io/apis/company-b2b-or-b2c-checker)
+- **CSC** - [Company Mission Statement](https://apidoc.cufinder.io/apis/company-mission-statement)
+- **CSN** - [Company Snapshot](https://apidoc.cufinder.io/apis/company-snapshot)
+- **NAO** - [Phone Number Normalizer](https://apidoc.cufinder.io/apis/phone-number-normalizer)
+- **NAA** - [Address Normalizer](https://apidoc.cufinder.io/apis/address-normalizer)
 
 
 **CUF - Company Name to Domain API**
@@ -319,6 +327,102 @@ result, err := sdk.LBS(cufinder.LbsParams{
     State:   "california",
     Page:    1,
 })
+if err != nil {
+    log.Fatal(err)
+}
+fmt.Println(result)
+```
+
+**BCD - B2B Customers Finder**
+
+Returns company's careers page
+
+```go
+result, err := sdk.BCD("stripe.com")
+if err != nil {
+    log.Fatal(err)
+}
+fmt.Println(result)
+```
+
+**CCP - Company Career Page Finder**
+
+Returns is company SaaS or not
+
+```go
+result, err := sdk.CCP("stripe.com")
+if err != nil {
+    log.Fatal(err)
+}
+fmt.Println(result)
+```
+
+**ISC - Company Saas Checker**
+
+Returns is company SaaS or not
+
+```go
+result, err := sdk.ISC("stripe.com")
+if err != nil {
+    log.Fatal(err)
+}
+fmt.Println(result)
+```
+
+**CBC - Company B2B or B2C Checker**
+
+Returns company's business type
+
+```go
+result, err := sdk.CBC("stripe.com")
+if err != nil {
+    log.Fatal(err)
+}
+fmt.Println(result)
+```
+
+**CSC - Company Mission Statement**
+
+Returns company's mission statement
+
+```go
+result, err := sdk.CSC("stripe.com")
+if err != nil {
+    log.Fatal(err)
+}
+fmt.Println(result)
+```
+
+**CSN - Company Snapshot**
+
+Returns company's snapshot information
+
+```go
+result, err := sdk.CSN("stripe.com")
+if err != nil {
+    log.Fatal(err)
+}
+fmt.Println(result)
+```
+
+**NAO - Phone Number Normalizer**
+
+Returns normalized phone
+
+```go
+result, err := sdk.NAO("+18006676389")
+if err != nil {
+    log.Fatal(err)
+}
+fmt.Println(result)
+```
+
+**NAA - Address Normalizer**
+
+Returns normalized address
+
+```go
+result, err := sdk.NAA("1095 avenue of the Americas, 6th Avenue ny 10036")
 if err != nil {
     log.Fatal(err)
 }
