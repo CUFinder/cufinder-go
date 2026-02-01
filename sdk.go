@@ -204,6 +204,13 @@ func (s *SDK) ISC(url string) (*IscResponse, error) {
 	})
 }
 
+// CBC - Company B2B or B2C Checker
+func (s *SDK) CBC(url string) (*CbcResponse, error) {
+	return s.service.GetCompanyBusinessType(CbcParams{
+		Url: url,
+	})
+}
+
 // GetClient returns the underlying HTTP client for advanced usage
 func (s *SDK) GetClient() *Client {
 	return s.client

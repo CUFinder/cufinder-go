@@ -438,6 +438,11 @@ type IscResponse struct {
 	IsSaas string `json:"is_saas"`
 }
 
+type CbcResponse struct {
+	BaseResponse
+	BusinessType string `json:"business_type"`
+}
+
 // Parameter types for each service
 type CufParams struct {
 	CompanyName string `json:"company_name"`
@@ -567,5 +572,9 @@ type CcpParams struct {
 }
 
 type IscParams struct {
+	Url string `json:"url"`
+}
+
+type CbcParams struct {
 	Url string `json:"url"`
 }

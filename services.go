@@ -446,6 +446,25 @@ func (s *Service) IsSaas(params IscParams) (*IscResponse, error) {
 	return &result, nil
 }
 
+// CBC Service - Company B2B or B2C Checker
+func (s *Service) GetCompanyBusinessType(params CbcParams) (*CbcResponse, error) {
+	if params.Url == "" {
+		return nil, fmt.Errorf("url is required")
+	}
+
+	response, err := s.client.Post("/cbc", params)
+	if err != nil {
+		return nil, fmt.Errorf("CBC service error: %w", err)
+	}
+
+	var result CbcResponse
+	if err := mapToStruct(response, &result); err != nil {
+		return nil, fmt.Errorf("failed to parse response: %w", err)
+	}
+
+	return &result, nil
+}
+
 // Helper function to convert map to struct
 func mapToStruct(data map[string]interface{}, result interface{}) error {
 	// Check if the response has a "data" wrapper (like Python SDK)
