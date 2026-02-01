@@ -225,6 +225,13 @@ func (s *SDK) CSN(url string) (*CsnResponse, error) {
 	})
 }
 
+// NAO - Phone Number Normalizer
+func (s *SDK) NAO(phone string) (*NaoResponse, error) {
+	return s.service.NormalizePhone(NaoParams{
+		Phone: phone,
+	})
+}
+
 // GetClient returns the underlying HTTP client for advanced usage
 func (s *SDK) GetClient() *Client {
 	return s.client

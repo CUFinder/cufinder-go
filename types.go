@@ -460,6 +460,11 @@ type CsnResponse struct {
 	CompanySnapshot CsnSnapshotInfo `json:"company_snapshot"`
 }
 
+type NaoResponse struct {
+	BaseResponse
+	Phone string `json:"phone"`
+}
+
 // Parameter types for each service
 type CufParams struct {
 	CompanyName string `json:"company_name"`
@@ -602,4 +607,8 @@ type CscParams struct {
 
 type CsnParams struct {
 	Url string `json:"url"`
+}
+
+type NaoParams struct {
+	Phone string `json:"phone"`
 }

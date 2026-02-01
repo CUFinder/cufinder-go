@@ -503,6 +503,25 @@ func (s *Service) GetCompanySnapshot(params CsnParams) (*CsnResponse, error) {
 	return &result, nil
 }
 
+// NAO Service - Phone Number Normalizer
+func (s *Service) NormalizePhone(params NaoParams) (*NaoResponse, error) {
+	if params.Phone == "" {
+		return nil, fmt.Errorf("phone is required")
+	}
+
+	response, err := s.client.Post("/nao", params)
+	if err != nil {
+		return nil, fmt.Errorf("NAO service error: %w", err)
+	}
+
+	var result NaoResponse
+	if err := mapToStruct(response, &result); err != nil {
+		return nil, fmt.Errorf("failed to parse response: %w", err)
+	}
+
+	return &result, nil
+}
+
 // Helper function to convert map to struct
 func mapToStruct(data map[string]interface{}, result interface{}) error {
 	// Check if the response has a "data" wrapper (like Python SDK)
