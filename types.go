@@ -423,6 +423,53 @@ type LbsResponse struct {
 	Companies []Company `json:"companies"`
 }
 
+type BcdResponse struct {
+	BaseResponse
+	Customers []string `json:"customers"`
+}
+
+type CcpResponse struct {
+	BaseResponse
+	CareersPageUrl string `json:"careers_page_url"`
+}
+
+type IscResponse struct {
+	BaseResponse
+	IsSaas string `json:"is_saas"`
+}
+
+type CbcResponse struct {
+	BaseResponse
+	BusinessType string `json:"business_type"`
+}
+
+type CscResponse struct {
+	BaseResponse
+	MissionStatement string `json:"mission_statement"`
+}
+
+type CsnSnapshotInfo struct {
+	ICP              string   `json:"icp,omitempty"`
+	TargetIndustries []string `json:"target_industries,omitempty"`
+	TargetPersonas   []string `json:"target_personas,omitempty"`
+	ValueProposition string   `json:"value_proposition,omitempty"`
+}
+
+type CsnResponse struct {
+	BaseResponse
+	CompanySnapshot CsnSnapshotInfo `json:"company_snapshot"`
+}
+
+type NaoResponse struct {
+	BaseResponse
+	Phone string `json:"phone"`
+}
+
+type NaaResponse struct {
+	BaseResponse
+	Address string `json:"address"`
+}
+
 // Parameter types for each service
 type CufParams struct {
 	CompanyName string `json:"company_name"`
@@ -541,4 +588,36 @@ type LbsParams struct {
 	City     string `json:"city,omitempty"`
 	Industry string `json:"industry,omitempty"`
 	Page     int    `json:"page,omitempty"`
+}
+
+type BcdParams struct {
+	Url string `json:"url"`
+}
+
+type CcpParams struct {
+	Url string `json:"url"`
+}
+
+type IscParams struct {
+	Url string `json:"url"`
+}
+
+type CbcParams struct {
+	Url string `json:"url"`
+}
+
+type CscParams struct {
+	Url string `json:"url"`
+}
+
+type CsnParams struct {
+	Url string `json:"url"`
+}
+
+type NaoParams struct {
+	Phone string `json:"phone"`
+}
+
+type NaaParams struct {
+	Address string `json:"address"`
 }

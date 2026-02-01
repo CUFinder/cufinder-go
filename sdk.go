@@ -183,6 +183,62 @@ func (s *SDK) LBS(params LbsParams) (*LbsResponse, error) {
 	return s.service.SearchLocalBusinesses(params)
 }
 
+// BCD - B2B Customers Finder
+func (s *SDK) BCD(url string) (*BcdResponse, error) {
+	return s.service.ExtractB2BCustomers(BcdParams{
+		Url: url,
+	})
+}
+
+// CCP - Company Career Page Finder
+func (s *SDK) CCP(url string) (*CcpResponse, error) {
+	return s.service.FindCareersPage(CcpParams{
+		Url: url,
+	})
+}
+
+// ISC - Company Saas Checker
+func (s *SDK) ISC(url string) (*IscResponse, error) {
+	return s.service.IsSaas(IscParams{
+		Url: url,
+	})
+}
+
+// CBC - Company B2B or B2C Checker
+func (s *SDK) CBC(url string) (*CbcResponse, error) {
+	return s.service.GetCompanyBusinessType(CbcParams{
+		Url: url,
+	})
+}
+
+// CSC - Company Mission Statement
+func (s *SDK) CSC(url string) (*CscResponse, error) {
+	return s.service.GetCompanyMissionStatement(CscParams{
+		Url: url,
+	})
+}
+
+// CSN - Company Snapshot
+func (s *SDK) CSN(url string) (*CsnResponse, error) {
+	return s.service.GetCompanySnapshot(CsnParams{
+		Url: url,
+	})
+}
+
+// NAO - Phone Number Normalizer
+func (s *SDK) NAO(phone string) (*NaoResponse, error) {
+	return s.service.NormalizePhone(NaoParams{
+		Phone: phone,
+	})
+}
+
+// NAA - Address Normalizer
+func (s *SDK) NAA(address string) (*NaaResponse, error) {
+	return s.service.NormalizeAddress(NaaParams{
+		Address: address,
+	})
+}
+
 // GetClient returns the underlying HTTP client for advanced usage
 func (s *SDK) GetClient() *Client {
 	return s.client

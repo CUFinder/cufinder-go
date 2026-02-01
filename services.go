@@ -389,6 +389,158 @@ func (s *Service) SearchLocalBusinesses(params LbsParams) (*LbsResponse, error) 
 	return &result, nil
 }
 
+// BCD Service - B2B Customers Finder
+func (s *Service) ExtractB2BCustomers(params BcdParams) (*BcdResponse, error) {
+	if params.Url == "" {
+		return nil, fmt.Errorf("url is required")
+	}
+
+	response, err := s.client.Post("/bcd", params)
+	if err != nil {
+		return nil, fmt.Errorf("BCD service error: %w", err)
+	}
+
+	var result BcdResponse
+	if err := mapToStruct(response, &result); err != nil {
+		return nil, fmt.Errorf("failed to parse response: %w", err)
+	}
+
+	return &result, nil
+}
+
+// CCP Service - Company Career Page Finder
+func (s *Service) FindCareersPage(params CcpParams) (*CcpResponse, error) {
+	if params.Url == "" {
+		return nil, fmt.Errorf("url is required")
+	}
+
+	response, err := s.client.Post("/ccp", params)
+	if err != nil {
+		return nil, fmt.Errorf("CCP service error: %w", err)
+	}
+
+	var result CcpResponse
+	if err := mapToStruct(response, &result); err != nil {
+		return nil, fmt.Errorf("failed to parse response: %w", err)
+	}
+
+	return &result, nil
+}
+
+// ISC Service - Company Saas Checker
+func (s *Service) IsSaas(params IscParams) (*IscResponse, error) {
+	if params.Url == "" {
+		return nil, fmt.Errorf("url is required")
+	}
+
+	response, err := s.client.Post("/isc", params)
+	if err != nil {
+		return nil, fmt.Errorf("ISC service error: %w", err)
+	}
+
+	var result IscResponse
+	if err := mapToStruct(response, &result); err != nil {
+		return nil, fmt.Errorf("failed to parse response: %w", err)
+	}
+
+	return &result, nil
+}
+
+// CBC Service - Company B2B or B2C Checker
+func (s *Service) GetCompanyBusinessType(params CbcParams) (*CbcResponse, error) {
+	if params.Url == "" {
+		return nil, fmt.Errorf("url is required")
+	}
+
+	response, err := s.client.Post("/cbc", params)
+	if err != nil {
+		return nil, fmt.Errorf("CBC service error: %w", err)
+	}
+
+	var result CbcResponse
+	if err := mapToStruct(response, &result); err != nil {
+		return nil, fmt.Errorf("failed to parse response: %w", err)
+	}
+
+	return &result, nil
+}
+
+// CSC Service - Company Mission Statement
+func (s *Service) GetCompanyMissionStatement(params CscParams) (*CscResponse, error) {
+	if params.Url == "" {
+		return nil, fmt.Errorf("url is required")
+	}
+
+	response, err := s.client.Post("/csc", params)
+	if err != nil {
+		return nil, fmt.Errorf("CSC service error: %w", err)
+	}
+
+	var result CscResponse
+	if err := mapToStruct(response, &result); err != nil {
+		return nil, fmt.Errorf("failed to parse response: %w", err)
+	}
+
+	return &result, nil
+}
+
+// CSN Service - Company Snapshot
+func (s *Service) GetCompanySnapshot(params CsnParams) (*CsnResponse, error) {
+	if params.Url == "" {
+		return nil, fmt.Errorf("url is required")
+	}
+
+	response, err := s.client.Post("/csn", params)
+	if err != nil {
+		return nil, fmt.Errorf("CSN service error: %w", err)
+	}
+
+	var result CsnResponse
+	if err := mapToStruct(response, &result); err != nil {
+		return nil, fmt.Errorf("failed to parse response: %w", err)
+	}
+
+	return &result, nil
+}
+
+// NAO Service - Phone Number Normalizer
+func (s *Service) NormalizePhone(params NaoParams) (*NaoResponse, error) {
+	if params.Phone == "" {
+		return nil, fmt.Errorf("phone is required")
+	}
+
+	response, err := s.client.Post("/nao", params)
+	if err != nil {
+		return nil, fmt.Errorf("NAO service error: %w", err)
+	}
+
+	var result NaoResponse
+	if err := mapToStruct(response, &result); err != nil {
+		return nil, fmt.Errorf("failed to parse response: %w", err)
+	}
+
+	return &result, nil
+}
+
+// NAA Service - Address Normalizer
+func (s *Service) NormalizeAddress(params NaaParams) (*NaaResponse, error) {
+	if params.Address == "" {
+		return nil, fmt.Errorf("address is required")
+	}
+
+	response, err := s.client.Post("/naa", params)
+	if err != nil {
+		return nil, fmt.Errorf("NAA service error: %w", err)
+	}
+
+	var result NaaResponse
+	if err := mapToStruct(response, &result); err != nil {
+		return nil, fmt.Errorf("failed to parse response: %w", err)
+	}
+
+	return &result, nil
+}
+
 // Helper function to convert map to struct
 func mapToStruct(data map[string]interface{}, result interface{}) error {
 	// Check if the response has a "data" wrapper (like Python SDK)
