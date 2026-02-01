@@ -197,6 +197,13 @@ func (s *SDK) CCP(url string) (*CcpResponse, error) {
 	})
 }
 
+// ISC - Company Saas Checker
+func (s *SDK) ISC(url string) (*IscResponse, error) {
+	return s.service.IsSaas(IscParams{
+		Url: url,
+	})
+}
+
 // GetClient returns the underlying HTTP client for advanced usage
 func (s *SDK) GetClient() *Client {
 	return s.client

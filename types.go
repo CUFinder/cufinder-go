@@ -433,6 +433,11 @@ type CcpResponse struct {
 	CareersPageUrl string `json:"careers_page_url"`
 }
 
+type IscResponse struct {
+	BaseResponse
+	IsSaas string `json:"is_saas"`
+}
+
 // Parameter types for each service
 type CufParams struct {
 	CompanyName string `json:"company_name"`
@@ -558,5 +563,9 @@ type BcdParams struct {
 }
 
 type CcpParams struct {
+	Url string `json:"url"`
+}
+
+type IscParams struct {
 	Url string `json:"url"`
 }

@@ -427,6 +427,25 @@ func (s *Service) FindCareersPage(params CcpParams) (*CcpResponse, error) {
 	return &result, nil
 }
 
+// ISC Service - Company Saas Checker
+func (s *Service) IsSaas(params IscParams) (*IscResponse, error) {
+	if params.Url == "" {
+		return nil, fmt.Errorf("url is required")
+	}
+
+	response, err := s.client.Post("/isc", params)
+	if err != nil {
+		return nil, fmt.Errorf("ISC service error: %w", err)
+	}
+
+	var result IscResponse
+	if err := mapToStruct(response, &result); err != nil {
+		return nil, fmt.Errorf("failed to parse response: %w", err)
+	}
+
+	return &result, nil
+}
+
 // Helper function to convert map to struct
 func mapToStruct(data map[string]interface{}, result interface{}) error {
 	// Check if the response has a "data" wrapper (like Python SDK)
