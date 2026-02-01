@@ -428,6 +428,11 @@ type BcdResponse struct {
 	Customers []string `json:"customers"`
 }
 
+type CcpResponse struct {
+	BaseResponse
+	CareersPageUrl string `json:"careers_page_url"`
+}
+
 // Parameter types for each service
 type CufParams struct {
 	CompanyName string `json:"company_name"`
@@ -549,5 +554,9 @@ type LbsParams struct {
 }
 
 type BcdParams struct {
+	Url string `json:"url"`
+}
+
+type CcpParams struct {
 	Url string `json:"url"`
 }

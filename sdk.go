@@ -190,6 +190,13 @@ func (s *SDK) BCD(url string) (*BcdResponse, error) {
 	})
 }
 
+// CCP - Company Career Page Finder
+func (s *SDK) CCP(url string) (*CcpResponse, error) {
+	return s.service.FindCareersPage(CcpParams{
+		Url: url,
+	})
+}
+
 // GetClient returns the underlying HTTP client for advanced usage
 func (s *SDK) GetClient() *Client {
 	return s.client

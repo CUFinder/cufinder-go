@@ -408,6 +408,25 @@ func (s *Service) ExtractB2BCustomers(params BcdParams) (*BcdResponse, error) {
 	return &result, nil
 }
 
+// CCP Service - Company Career Page Finder
+func (s *Service) FindCareersPage(params CcpParams) (*CcpResponse, error) {
+	if params.Url == "" {
+		return nil, fmt.Errorf("url is required")
+	}
+
+	response, err := s.client.Post("/ccp", params)
+	if err != nil {
+		return nil, fmt.Errorf("CCP service error: %w", err)
+	}
+
+	var result CcpResponse
+	if err := mapToStruct(response, &result); err != nil {
+		return nil, fmt.Errorf("failed to parse response: %w", err)
+	}
+
+	return &result, nil
+}
+
 // Helper function to convert map to struct
 func mapToStruct(data map[string]interface{}, result interface{}) error {
 	// Check if the response has a "data" wrapper (like Python SDK)
