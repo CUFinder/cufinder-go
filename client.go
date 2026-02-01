@@ -65,7 +65,7 @@ func (c *Client) Post(endpoint string, data interface{}) (map[string]interface{}
 
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	req.Header.Set("x-api-key", c.apiKey)
-	req.Header.Set("User-Agent", "cufinder-go/1.0.0")
+	req.Header.Set("User-Agent", "cufinder-go/1.1.0")
 
 	resp, err := c.httpClient.Do(req)
 	if err != nil {
