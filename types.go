@@ -465,6 +465,11 @@ type NaoResponse struct {
 	Phone string `json:"phone"`
 }
 
+type NaaResponse struct {
+	BaseResponse
+	Address string `json:"address"`
+}
+
 // Parameter types for each service
 type CufParams struct {
 	CompanyName string `json:"company_name"`
@@ -611,4 +616,8 @@ type CsnParams struct {
 
 type NaoParams struct {
 	Phone string `json:"phone"`
+}
+
+type NaaParams struct {
+	Address string `json:"address"`
 }

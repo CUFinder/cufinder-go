@@ -232,6 +232,13 @@ func (s *SDK) NAO(phone string) (*NaoResponse, error) {
 	})
 }
 
+// NAA - Address Normalizer
+func (s *SDK) NAA(address string) (*NaaResponse, error) {
+	return s.service.NormalizeAddress(NaaParams{
+		Address: address,
+	})
+}
+
 // GetClient returns the underlying HTTP client for advanced usage
 func (s *SDK) GetClient() *Client {
 	return s.client
