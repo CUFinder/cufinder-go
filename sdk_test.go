@@ -364,6 +364,29 @@ func TestSDK(t *testing.T) {
 			w.Header().Set("Content-Type", "application/json")
 			json.NewEncoder(w).Encode(response)
 
+		case "/caa":
+			response := map[string]interface{}{
+				"activities": []map[string]interface{}{
+					{
+						"activity_url":              "https://www.linkedin.com/posts/cufinder_anthropic-alphabet-ai-activity-7462132400869888002-bCRi",
+						"activity_id":               "7462132400869888002",
+						"activity_comments_count":   59,
+						"activity_hashtags":         []string{"#AI", "#Anthropic", "#CUFinder"},
+						"activity_is_video":         true,
+						"activity_posted_at":        "2026-05-18T13:30:04.063Z",
+						"activity_reactions_count":  3,
+						"activity_text":             "Anthropic is projected to grow 222x by 2030",
+						"activity_top_comments":     []string{},
+						"activity_images":           []string{"https://media.licdn.com/image.jpg"},
+						"activity_videos":           []string{"https://dms.licdn.com/video.mp4"},
+					},
+				},
+				"query":        "TechCorp",
+				"credit_count": 1,
+			}
+			w.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(w).Encode(response)
+
 		default:
 			w.WriteHeader(http.StatusNotFound)
 		}
@@ -576,6 +599,21 @@ func TestSDK(t *testing.T) {
 		require.NoError(t, err)
 		assert.Equal(t, "Cufinder Inc.", result.Company)
 		assert.Equal(t, "cufinder inc.", result.Query)
+		assert.Equal(t, 1, result.CreditCount)
+	})
+
+	t.Run("CAA Service", func(t *testing.T) {
+		result, err := sdk.CAA("TechCorp", 1)
+		require.NoError(t, err)
+		assert.Len(t, result.Activities, 1)
+		assert.Equal(t, "https://www.linkedin.com/posts/cufinder_anthropic-alphabet-ai-activity-7462132400869888002-bCRi", result.Activities[0].ActivityURL)
+		assert.Equal(t, "7462132400869888002", result.Activities[0].ActivityID)
+		assert.Equal(t, 59, result.Activities[0].ActivityCommentsCount)
+		assert.Equal(t, []string{"#AI", "#Anthropic", "#CUFinder"}, result.Activities[0].ActivityHashtags)
+		assert.Equal(t, true, result.Activities[0].ActivityIsVideo)
+		assert.Equal(t, "2026-05-18T13:30:04.063Z", result.Activities[0].ActivityPostedAt)
+		assert.Equal(t, 3, result.Activities[0].ActivityReactionsCount)
+		assert.Equal(t, "TechCorp", result.Query)
 		assert.Equal(t, 1, result.CreditCount)
 	})
 

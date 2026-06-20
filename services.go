@@ -579,6 +579,25 @@ func (s *Service) NormalizeCompanyName(params NacParams) (*NacResponse, error) {
 	return &result, nil
 }
 
+// CAA Service - Company Activity API
+func (s *Service) GetCompanyActivities(params CaaParams) (*CaaResponse, error) {
+	if params.Query == "" {
+		return nil, fmt.Errorf("query is required")
+	}
+
+	response, err := s.client.Post("/caa", params)
+	if err != nil {
+		return nil, fmt.Errorf("CAA service error: %w", err)
+	}
+
+	var result CaaResponse
+	if err := mapToStruct(response, &result); err != nil {
+		return nil, fmt.Errorf("failed to parse response: %w", err)
+	}
+
+	return &result, nil
+}
+
 // Helper function to convert map to struct
 func mapToStruct(data map[string]interface{}, result interface{}) error {
 	// Check if the response has a "data" wrapper (like Python SDK)

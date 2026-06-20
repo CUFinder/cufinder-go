@@ -656,6 +656,35 @@ type CefParams struct {
 	Page  int    `json:"page,omitempty"`
 }
 
+type CaaActivity struct {
+	ActivityURL              string   `json:"activity_url,omitempty"`
+	ActivityID               string   `json:"activity_id,omitempty"`
+	AuthorName               string   `json:"author_name,omitempty"`
+	AuthorType               string   `json:"author_type,omitempty"`
+	AuthorURL                string   `json:"author_url,omitempty"`
+	ActivityCommentsCount    int      `json:"activity_comments_count,omitempty"`
+	ActivityHashtags         []string `json:"activity_hashtags,omitempty"`
+	ActivityHeadline         string   `json:"activity_headline,omitempty"`
+	ActivityImages           []string `json:"activity_images,omitempty"`
+	ActivityIsVideo          bool     `json:"activity_is_video,omitempty"`
+	ActivityPostedAt         string   `json:"activity_posted_at,omitempty"`
+	ActivityReactionsCount   int      `json:"activity_reactions_count,omitempty"`
+	ActivityRepostsCount     int      `json:"activity_reposts_count,omitempty"`
+	ActivityText             string   `json:"activity_text,omitempty"`
+	ActivityTopComments      []string `json:"activity_top_comments,omitempty"`
+	ActivityVideos           []string `json:"activity_videos,omitempty"`
+}
+
+type CaaResponse struct {
+	BaseResponse
+	Activities []CaaActivity `json:"activities"`
+}
+
+type CaaParams struct {
+	Query string `json:"query"`
+	Page  int    `json:"page,omitempty"`
+}
+
 type NacResponse struct {
 	BaseResponse
 	Company string `json:"company"`
