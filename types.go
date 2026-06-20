@@ -693,3 +693,61 @@ type NacResponse struct {
 type NacParams struct {
 	Company string `json:"company"`
 }
+
+type CjaCompany struct {
+	Name           string `json:"name,omitempty"`
+	Industry       string `json:"industry,omitempty"`
+	Website        string `json:"website,omitempty"`
+	Linkedin       string `json:"linkedin,omitempty"`
+	FollowersCount int    `json:"followers_count,omitempty"`
+	Employees      struct {
+		Range string `json:"range,omitempty"`
+	} `json:"employees,omitempty"`
+	FoundedDate   string `json:"founded_date,omitempty"`
+	AnnualRevenue string `json:"annual_revenue,omitempty"`
+	FundingAmount string `json:"funding_amount,omitempty"`
+	MainLocation  struct {
+		Country string `json:"country,omitempty"`
+		State   string `json:"state,omitempty"`
+		City    string `json:"city,omitempty"`
+	} `json:"main_location,omitempty"`
+}
+
+type CjaJob struct {
+	JobID        string `json:"job_id,omitempty"`
+	Title        string `json:"title,omitempty"`
+	URL          string `json:"url,omitempty"`
+	Location     string `json:"location,omitempty"`
+	PostedAt     string `json:"posted_at,omitempty"`
+	PostedAtText string `json:"posted_at_text,omitempty"`
+}
+
+type CjaJobItem struct {
+	Company CjaCompany `json:"company"`
+	Job     CjaJob     `json:"job"`
+}
+
+type CjaResponse struct {
+	BaseResponse
+	Jobs []CjaJobItem `json:"jobs"`
+}
+
+type CjaParams struct {
+	Name              string   `json:"name,omitempty"`
+	Country           string   `json:"country,omitempty"`
+	State             string   `json:"state,omitempty"`
+	City              string   `json:"city,omitempty"`
+	FollowersCountMin int      `json:"followers_count_min,omitempty"`
+	FollowersCountMax int      `json:"followers_count_max,omitempty"`
+	Industry          string   `json:"industry,omitempty"`
+	EmployeeSize      string   `json:"employee_size,omitempty"`
+	FoundedAfterYear  int      `json:"founded_after_year,omitempty"`
+	FoundedBeforeYear int      `json:"founded_before_year,omitempty"`
+	FundingAmountMax  int      `json:"funding_amount_max,omitempty"`
+	FundingAmountMin  int      `json:"funding_amount_min,omitempty"`
+	ProductsServices  []string `json:"products_services,omitempty"`
+	IsSchool          bool     `json:"is_school,omitempty"`
+	AnnualRevenueMin  int      `json:"annual_revenue_min,omitempty"`
+	AnnualRevenueMax  int      `json:"annual_revenue_max,omitempty"`
+	Page              int      `json:"page,omitempty"`
+}

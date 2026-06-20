@@ -598,6 +598,21 @@ func (s *Service) GetCompanyActivities(params CaaParams) (*CaaResponse, error) {
 	return &result, nil
 }
 
+// CJA Service - Company Jobs API
+func (s *Service) SearchCompanyJobs(params CjaParams) (*CjaResponse, error) {
+	response, err := s.client.Post("/cja", params)
+	if err != nil {
+		return nil, fmt.Errorf("CJA service error: %w", err)
+	}
+
+	var result CjaResponse
+	if err := mapToStruct(response, &result); err != nil {
+		return nil, fmt.Errorf("failed to parse response: %w", err)
+	}
+
+	return &result, nil
+}
+
 // Helper function to convert map to struct
 func mapToStruct(data map[string]interface{}, result interface{}) error {
 	// Check if the response has a "data" wrapper (like Python SDK)

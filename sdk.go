@@ -262,6 +262,11 @@ func (s *SDK) CAA(query string, page int) (*CaaResponse, error) {
 	})
 }
 
+// CJA - Company Jobs API
+func (s *SDK) CJA(params CjaParams) (*CjaResponse, error) {
+	return s.service.SearchCompanyJobs(params)
+}
+
 // GetClient returns the underlying HTTP client for advanced usage
 func (s *SDK) GetClient() *Client {
 	return s.client
