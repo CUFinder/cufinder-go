@@ -621,3 +621,37 @@ type NaoParams struct {
 type NaaParams struct {
 	Address string `json:"address"`
 }
+
+type CefEmployee struct {
+	FullName           string   `json:"full_name,omitempty"`
+	FirstName          string   `json:"first_name,omitempty"`
+	LastName           string   `json:"last_name,omitempty"`
+	LinkedInURL        string   `json:"linkedin_url,omitempty"`
+	Summary            string   `json:"summary,omitempty"`
+	Avatar             string   `json:"avatar,omitempty"`
+	Country            string   `json:"country,omitempty"`
+	State              string   `json:"state,omitempty"`
+	City               string   `json:"city,omitempty"`
+	JobTitle           string   `json:"job_title,omitempty"`
+	JobTitleCategories []string `json:"job_title_categories,omitempty"`
+	CompanyName        string   `json:"company_name,omitempty"`
+	CompanyLinkedIn    string   `json:"company_linkedin,omitempty"`
+	CompanyWebsite     string   `json:"company_website,omitempty"`
+	CompanySize        string   `json:"company_size,omitempty"`
+	CompanyIndustry    string   `json:"company_industry,omitempty"`
+	CompanyFacebook    string   `json:"company_facebook,omitempty"`
+	CompanyTwitter     string   `json:"company_twitter,omitempty"`
+	CompanyCountry     string   `json:"company_country,omitempty"`
+	CompanyState       string   `json:"company_state,omitempty"`
+	CompanyCity        string   `json:"company_city,omitempty"`
+}
+
+type CefResponse struct {
+	BaseResponse
+	Employees []CefEmployee `json:"employees"`
+}
+
+type CefParams struct {
+	Query string `json:"query"`
+	Page  int    `json:"page,omitempty"`
+}

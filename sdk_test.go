@@ -314,6 +314,47 @@ func TestSDK(t *testing.T) {
 			w.Header().Set("Content-Type", "application/json")
 			json.NewEncoder(w).Encode(response)
 
+		case "/naa":
+			response := map[string]interface{}{
+				"address":      "123 Main St, San Francisco, CA 94105, US",
+				"query":        "1095 avenue of the Americas, 6th Avenue ny 10036",
+				"credit_count": 1,
+			}
+			w.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(w).Encode(response)
+
+		case "/cef":
+			response := map[string]interface{}{
+				"employees": []map[string]interface{}{
+					{
+						"full_name":    "John Doe",
+						"first_name":   "John",
+						"last_name":    "Doe",
+						"linkedin_url": "https://linkedin.com/in/john-doe",
+						"job_title":    "Software Engineer",
+						"company_name": "TechCorp",
+						"country":      "US",
+						"state":        "CA",
+						"city":         "San Francisco",
+					},
+					{
+						"full_name":    "Jane Smith",
+						"first_name":   "Jane",
+						"last_name":    "Smith",
+						"linkedin_url": "https://linkedin.com/in/jane-smith",
+						"job_title":    "Product Manager",
+						"company_name": "TechCorp",
+						"country":      "US",
+						"state":        "CA",
+						"city":         "San Francisco",
+					},
+				},
+				"query":        "TechCorp",
+				"credit_count": 1,
+			}
+			w.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(w).Encode(response)
+
 		default:
 			w.WriteHeader(http.StatusNotFound)
 		}
@@ -503,6 +544,22 @@ func TestSDK(t *testing.T) {
 		assert.Equal(t, "San Francisco", result.Businesses[0].City)
 		assert.Equal(t, 2, result.TotalResults)
 		assert.Equal(t, 1, result.Page)
+	})
+
+	t.Run("CEF Service", func(t *testing.T) {
+		result, err := sdk.CEF("TechCorp", 1)
+		require.NoError(t, err)
+		assert.Len(t, result.Employees, 2)
+		assert.Equal(t, "John Doe", result.Employees[0].FullName)
+		assert.Equal(t, "John", result.Employees[0].FirstName)
+		assert.Equal(t, "Doe", result.Employees[0].LastName)
+		assert.Equal(t, "https://linkedin.com/in/john-doe", result.Employees[0].LinkedInURL)
+		assert.Equal(t, "Software Engineer", result.Employees[0].JobTitle)
+		assert.Equal(t, "TechCorp", result.Employees[0].CompanyName)
+		assert.Equal(t, "Jane Smith", result.Employees[1].FullName)
+		assert.Equal(t, "Product Manager", result.Employees[1].JobTitle)
+		assert.Equal(t, "TechCorp", result.Query)
+		assert.Equal(t, 1, result.CreditCount)
 	})
 
 	t.Run("Error Handling", func(t *testing.T) {

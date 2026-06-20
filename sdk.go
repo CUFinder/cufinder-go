@@ -239,6 +239,14 @@ func (s *SDK) NAA(address string) (*NaaResponse, error) {
 	})
 }
 
+// CEF - Company Employee Finder
+func (s *SDK) CEF(query string, page int) (*CefResponse, error) {
+	return s.service.FindCompanyEmployees(CefParams{
+		Query: query,
+		Page:  page,
+	})
+}
+
 // GetClient returns the underlying HTTP client for advanced usage
 func (s *SDK) GetClient() *Client {
 	return s.client

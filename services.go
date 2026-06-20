@@ -541,6 +541,25 @@ func (s *Service) NormalizeAddress(params NaaParams) (*NaaResponse, error) {
 	return &result, nil
 }
 
+// CEF Service - Company Employee Finder
+func (s *Service) FindCompanyEmployees(params CefParams) (*CefResponse, error) {
+	if params.Query == "" {
+		return nil, fmt.Errorf("query is required")
+	}
+
+	response, err := s.client.Post("/cef", params)
+	if err != nil {
+		return nil, fmt.Errorf("CEF service error: %w", err)
+	}
+
+	var result CefResponse
+	if err := mapToStruct(response, &result); err != nil {
+		return nil, fmt.Errorf("failed to parse response: %w", err)
+	}
+
+	return &result, nil
+}
+
 // Helper function to convert map to struct
 func mapToStruct(data map[string]interface{}, result interface{}) error {
 	// Check if the response has a "data" wrapper (like Python SDK)
