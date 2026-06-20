@@ -655,3 +655,12 @@ type CefParams struct {
 	Query string `json:"query"`
 	Page  int    `json:"page,omitempty"`
 }
+
+type NacResponse struct {
+	BaseResponse
+	Company string `json:"company"`
+}
+
+type NacParams struct {
+	Company string `json:"company"`
+}

@@ -247,6 +247,13 @@ func (s *SDK) CEF(query string, page int) (*CefResponse, error) {
 	})
 }
 
+// NAC - Company Name Normalizer
+func (s *SDK) NAC(company string) (*NacResponse, error) {
+	return s.service.NormalizeCompanyName(NacParams{
+		Company: company,
+	})
+}
+
 // GetClient returns the underlying HTTP client for advanced usage
 func (s *SDK) GetClient() *Client {
 	return s.client

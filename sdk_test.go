@@ -355,6 +355,15 @@ func TestSDK(t *testing.T) {
 			w.Header().Set("Content-Type", "application/json")
 			json.NewEncoder(w).Encode(response)
 
+		case "/nac":
+			response := map[string]interface{}{
+				"company":      "Cufinder Inc.",
+				"query":        "cufinder inc.",
+				"credit_count": 1,
+			}
+			w.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(w).Encode(response)
+
 		default:
 			w.WriteHeader(http.StatusNotFound)
 		}
@@ -559,6 +568,14 @@ func TestSDK(t *testing.T) {
 		assert.Equal(t, "Jane Smith", result.Employees[1].FullName)
 		assert.Equal(t, "Product Manager", result.Employees[1].JobTitle)
 		assert.Equal(t, "TechCorp", result.Query)
+		assert.Equal(t, 1, result.CreditCount)
+	})
+
+	t.Run("NAC Service", func(t *testing.T) {
+		result, err := sdk.NAC("cufinder inc.")
+		require.NoError(t, err)
+		assert.Equal(t, "Cufinder Inc.", result.Company)
+		assert.Equal(t, "cufinder inc.", result.Query)
 		assert.Equal(t, 1, result.CreditCount)
 	})
 

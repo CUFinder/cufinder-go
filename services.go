@@ -560,6 +560,25 @@ func (s *Service) FindCompanyEmployees(params CefParams) (*CefResponse, error) {
 	return &result, nil
 }
 
+// NAC Service - Company Name Normalizer
+func (s *Service) NormalizeCompanyName(params NacParams) (*NacResponse, error) {
+	if params.Company == "" {
+		return nil, fmt.Errorf("company is required")
+	}
+
+	response, err := s.client.Post("/nac", params)
+	if err != nil {
+		return nil, fmt.Errorf("NAC service error: %w", err)
+	}
+
+	var result NacResponse
+	if err := mapToStruct(response, &result); err != nil {
+		return nil, fmt.Errorf("failed to parse response: %w", err)
+	}
+
+	return &result, nil
+}
+
 // Helper function to convert map to struct
 func mapToStruct(data map[string]interface{}, result interface{}) error {
 	// Check if the response has a "data" wrapper (like Python SDK)
