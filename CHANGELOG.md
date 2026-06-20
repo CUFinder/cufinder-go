@@ -11,6 +11,18 @@
 
 
 
+## 1.2.0 (June 20, 2026)
+
+#### Features
+- **CEF** - Company Employee Finder: Get company employees by query
+- **NAC** - Company Name Normalizer: Normalize company name with legal suffixes
+- **CAA** - Company Activity API: Get company LinkedIn activities
+- **CJA** - Company Jobs API: Search company job listings with advanced filters
+
+
+
+
+
 ## 1.0.0 (October 11, 2025)
 
 All API services implemented, as below:

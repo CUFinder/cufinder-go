@@ -314,6 +314,117 @@ func TestSDK(t *testing.T) {
 			w.Header().Set("Content-Type", "application/json")
 			json.NewEncoder(w).Encode(response)
 
+		case "/naa":
+			response := map[string]interface{}{
+				"address":      "123 Main St, San Francisco, CA 94105, US",
+				"query":        "1095 avenue of the Americas, 6th Avenue ny 10036",
+				"credit_count": 1,
+			}
+			w.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(w).Encode(response)
+
+		case "/cef":
+			response := map[string]interface{}{
+				"employees": []map[string]interface{}{
+					{
+						"full_name":    "John Doe",
+						"first_name":   "John",
+						"last_name":    "Doe",
+						"linkedin_url": "https://linkedin.com/in/john-doe",
+						"job_title":    "Software Engineer",
+						"company_name": "TechCorp",
+						"country":      "US",
+						"state":        "CA",
+						"city":         "San Francisco",
+					},
+					{
+						"full_name":    "Jane Smith",
+						"first_name":   "Jane",
+						"last_name":    "Smith",
+						"linkedin_url": "https://linkedin.com/in/jane-smith",
+						"job_title":    "Product Manager",
+						"company_name": "TechCorp",
+						"country":      "US",
+						"state":        "CA",
+						"city":         "San Francisco",
+					},
+				},
+				"query":        "TechCorp",
+				"credit_count": 1,
+			}
+			w.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(w).Encode(response)
+
+		case "/nac":
+			response := map[string]interface{}{
+				"company":      "Cufinder Inc.",
+				"query":        "cufinder inc.",
+				"credit_count": 1,
+			}
+			w.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(w).Encode(response)
+
+		case "/caa":
+			response := map[string]interface{}{
+				"activities": []map[string]interface{}{
+					{
+						"activity_url":              "https://www.linkedin.com/posts/cufinder_anthropic-alphabet-ai-activity-7462132400869888002-bCRi",
+						"activity_id":               "7462132400869888002",
+						"activity_comments_count":   59,
+						"activity_hashtags":         []string{"#AI", "#Anthropic", "#CUFinder"},
+						"activity_is_video":         true,
+						"activity_posted_at":        "2026-05-18T13:30:04.063Z",
+						"activity_reactions_count":  3,
+						"activity_text":             "Anthropic is projected to grow 222x by 2030",
+						"activity_top_comments":     []string{},
+						"activity_images":           []string{"https://media.licdn.com/image.jpg"},
+						"activity_videos":           []string{"https://dms.licdn.com/video.mp4"},
+					},
+				},
+				"query":        "TechCorp",
+				"credit_count": 1,
+			}
+			w.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(w).Encode(response)
+
+		case "/cja":
+			response := map[string]interface{}{
+				"jobs": []map[string]interface{}{
+					{
+						"company": map[string]interface{}{
+							"name":            "google",
+							"industry":        "software development",
+							"website":         "https://google.com",
+							"linkedin":        "linkedin.com/company/google",
+							"followers_count": 41911172,
+							"employees": map[string]interface{}{
+								"range": "10001+",
+							},
+							"founded_date":    nil,
+							"annual_revenue":  "$100-1000B",
+							"funding_amount":  "25000000.0",
+							"main_location": map[string]interface{}{
+								"country": "united states",
+								"state":   "california",
+								"city":    "mountain view",
+							},
+						},
+						"job": map[string]interface{}{
+							"job_id":         "4430052243",
+							"title":          "AI Driven Defense UTL",
+							"url":            "https://nz.linkedin.com/jobs/view/ai-driven-defense-utl-at-google-4430052243",
+							"location":       "New Zealand",
+							"posted_at":      "2026-06-20T02:08:22+00:00",
+							"posted_at_text": "7 hours ago",
+						},
+					},
+				},
+				"query":        map[string]interface{}{"name": "google"},
+				"credit_count": 1,
+			}
+			w.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(w).Encode(response)
+
 		default:
 			w.WriteHeader(http.StatusNotFound)
 		}
@@ -503,6 +614,71 @@ func TestSDK(t *testing.T) {
 		assert.Equal(t, "San Francisco", result.Businesses[0].City)
 		assert.Equal(t, 2, result.TotalResults)
 		assert.Equal(t, 1, result.Page)
+	})
+
+	t.Run("CEF Service", func(t *testing.T) {
+		result, err := sdk.CEF("TechCorp", 1)
+		require.NoError(t, err)
+		assert.Len(t, result.Employees, 2)
+		assert.Equal(t, "John Doe", result.Employees[0].FullName)
+		assert.Equal(t, "John", result.Employees[0].FirstName)
+		assert.Equal(t, "Doe", result.Employees[0].LastName)
+		assert.Equal(t, "https://linkedin.com/in/john-doe", result.Employees[0].LinkedInURL)
+		assert.Equal(t, "Software Engineer", result.Employees[0].JobTitle)
+		assert.Equal(t, "TechCorp", result.Employees[0].CompanyName)
+		assert.Equal(t, "Jane Smith", result.Employees[1].FullName)
+		assert.Equal(t, "Product Manager", result.Employees[1].JobTitle)
+		assert.Equal(t, "TechCorp", result.Query)
+		assert.Equal(t, 1, result.CreditCount)
+	})
+
+	t.Run("NAC Service", func(t *testing.T) {
+		result, err := sdk.NAC("cufinder inc.")
+		require.NoError(t, err)
+		assert.Equal(t, "Cufinder Inc.", result.Company)
+		assert.Equal(t, "cufinder inc.", result.Query)
+		assert.Equal(t, 1, result.CreditCount)
+	})
+
+	t.Run("CAA Service", func(t *testing.T) {
+		result, err := sdk.CAA("TechCorp", 1)
+		require.NoError(t, err)
+		assert.Len(t, result.Activities, 1)
+		assert.Equal(t, "https://www.linkedin.com/posts/cufinder_anthropic-alphabet-ai-activity-7462132400869888002-bCRi", result.Activities[0].ActivityURL)
+		assert.Equal(t, "7462132400869888002", result.Activities[0].ActivityID)
+		assert.Equal(t, 59, result.Activities[0].ActivityCommentsCount)
+		assert.Equal(t, []string{"#AI", "#Anthropic", "#CUFinder"}, result.Activities[0].ActivityHashtags)
+		assert.Equal(t, true, result.Activities[0].ActivityIsVideo)
+		assert.Equal(t, "2026-05-18T13:30:04.063Z", result.Activities[0].ActivityPostedAt)
+		assert.Equal(t, 3, result.Activities[0].ActivityReactionsCount)
+		assert.Equal(t, "TechCorp", result.Query)
+		assert.Equal(t, 1, result.CreditCount)
+	})
+
+	t.Run("CJA Service", func(t *testing.T) {
+		result, err := sdk.CJA(CjaParams{
+			Name: "google",
+		})
+		require.NoError(t, err)
+		assert.Len(t, result.Jobs, 1)
+		assert.Equal(t, "google", result.Jobs[0].Company.Name)
+		assert.Equal(t, "software development", result.Jobs[0].Company.Industry)
+		assert.Equal(t, "https://google.com", result.Jobs[0].Company.Website)
+		assert.Equal(t, "linkedin.com/company/google", result.Jobs[0].Company.Linkedin)
+		assert.Equal(t, 41911172, result.Jobs[0].Company.FollowersCount)
+		assert.Equal(t, "10001+", result.Jobs[0].Company.Employees.Range)
+		assert.Equal(t, "$100-1000B", result.Jobs[0].Company.AnnualRevenue)
+		assert.Equal(t, "25000000.0", result.Jobs[0].Company.FundingAmount)
+		assert.Equal(t, "united states", result.Jobs[0].Company.MainLocation.Country)
+		assert.Equal(t, "california", result.Jobs[0].Company.MainLocation.State)
+		assert.Equal(t, "mountain view", result.Jobs[0].Company.MainLocation.City)
+		assert.Equal(t, "4430052243", result.Jobs[0].Job.JobID)
+		assert.Equal(t, "AI Driven Defense UTL", result.Jobs[0].Job.Title)
+		assert.Equal(t, "https://nz.linkedin.com/jobs/view/ai-driven-defense-utl-at-google-4430052243", result.Jobs[0].Job.URL)
+		assert.Equal(t, "New Zealand", result.Jobs[0].Job.Location)
+		assert.Equal(t, "2026-06-20T02:08:22+00:00", result.Jobs[0].Job.PostedAt)
+		assert.Equal(t, "7 hours ago", result.Jobs[0].Job.PostedAtText)
+		assert.Equal(t, 1, result.CreditCount)
 	})
 
 	t.Run("Error Handling", func(t *testing.T) {

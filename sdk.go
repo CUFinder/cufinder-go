@@ -239,6 +239,34 @@ func (s *SDK) NAA(address string) (*NaaResponse, error) {
 	})
 }
 
+// CEF - Company Employee Finder
+func (s *SDK) CEF(query string, page int) (*CefResponse, error) {
+	return s.service.FindCompanyEmployees(CefParams{
+		Query: query,
+		Page:  page,
+	})
+}
+
+// NAC - Company Name Normalizer
+func (s *SDK) NAC(company string) (*NacResponse, error) {
+	return s.service.NormalizeCompanyName(NacParams{
+		Company: company,
+	})
+}
+
+// CAA - Company Activity API
+func (s *SDK) CAA(query string, page int) (*CaaResponse, error) {
+	return s.service.GetCompanyActivities(CaaParams{
+		Query: query,
+		Page:  page,
+	})
+}
+
+// CJA - Company Jobs API
+func (s *SDK) CJA(params CjaParams) (*CjaResponse, error) {
+	return s.service.SearchCompanyJobs(params)
+}
+
 // GetClient returns the underlying HTTP client for advanced usage
 func (s *SDK) GetClient() *Client {
 	return s.client
