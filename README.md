@@ -49,7 +49,7 @@ func main() {
 
 ## API Reference
 
-This SDK covers all 28 Cufinder API (v2) endpoints:
+This SDK covers all 32 Cufinder API (v2) endpoints:
 
 - **CUF** - [Company Name to Domain](https://apidoc.cufinder.io/apis/company-name-to-domain)
 - **LCUF** - [LinkedIn Company URL Finder](https://apidoc.cufinder.io/apis/company-linkedin-url-finder)
@@ -79,6 +79,10 @@ This SDK covers all 28 Cufinder API (v2) endpoints:
 - **CSN** - [Company Snapshot](https://apidoc.cufinder.io/apis/company-snapshot)
 - **NAO** - [Phone Number Normalizer](https://apidoc.cufinder.io/apis/phone-number-normalizer)
 - **NAA** - [Address Normalizer](https://apidoc.cufinder.io/apis/address-normalizer)
+- **CEF** - [Company Employee Finder](https://apidoc.cufinder.io/apis/company-employee-finder)
+- **NAC** - [Company Name Normalizer](https://apidoc.cufinder.io/apis/company-name-normalizer)
+- **CAA** - [Company Activity API](https://apidoc.cufinder.io/apis/company-activity-api)
+- **CJA** - [Company Jobs API](https://apidoc.cufinder.io/apis/company-jobs-api)
 
 
 **CUF - Company Name to Domain API**
@@ -427,6 +431,64 @@ if err != nil {
     log.Fatal(err)
 }
 fmt.Println(result)
+```
+
+**CEF - Company Employee Finder**
+
+Returns a list of employees for a given company
+
+```go
+result, err := sdk.CEF("stripe", 1)
+if err != nil {
+    log.Fatal(err)
+}
+for _, emp := range result.Employees {
+    fmt.Printf("name: %v, title: %v\n", emp.FullName, emp.JobTitle)
+}
+```
+
+**NAC - Company Name Normalizer**
+
+Returns normalized company name
+
+```go
+result, err := sdk.NAC("cufinder inc.")
+if err != nil {
+    log.Fatal(err)
+}
+fmt.Println(result.Company)
+```
+
+**CAA - Company Activity API**
+
+Returns company LinkedIn activities
+
+```go
+result, err := sdk.CAA("cufinder", 1)
+if err != nil {
+    log.Fatal(err)
+}
+for _, act := range result.Activities {
+    fmt.Printf("id: %v, url: %v\n", act.ActivityID, act.ActivityURL)
+}
+```
+
+**CJA - Company Jobs API**
+
+Search company job listings with filters
+
+```go
+result, err := sdk.CJA(cufinder.CjaParams{
+    Name:    "google",
+    Country: "united states",
+    Page:    1,
+})
+if err != nil {
+    log.Fatal(err)
+}
+for _, j := range result.Jobs {
+    fmt.Printf("company: %v, title: %v, location: %v\n", j.Company.Name, j.Job.Title, j.Job.Location)
+}
 ```
 
 ## Error Handling
