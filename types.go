@@ -367,8 +367,8 @@ type EncCompany struct {
 	Name           string `json:"name,omitempty"`
 	Website        string `json:"website,omitempty"`
 	EmployeeCount  int    `json:"employee_count,omitempty"`
-	Industry       string `json:"size,omitempty"`
-	Size           string `json:"industry,omitempty"`
+	Industry       string `json:"industry,omitempty"`
+	Size           string `json:"size,omitempty"`
 	Description    string `json:"description,omitempty"`
 	LinkedInURL    string `json:"linkedin_url,omitempty"`
 	Type           string `json:"type,omitempty"`
@@ -657,22 +657,22 @@ type CefParams struct {
 }
 
 type CaaActivity struct {
-	ActivityURL              string   `json:"activity_url,omitempty"`
-	ActivityID               string   `json:"activity_id,omitempty"`
-	AuthorName               string   `json:"author_name,omitempty"`
-	AuthorType               string   `json:"author_type,omitempty"`
-	AuthorURL                string   `json:"author_url,omitempty"`
-	ActivityCommentsCount    int      `json:"activity_comments_count,omitempty"`
-	ActivityHashtags         []string `json:"activity_hashtags,omitempty"`
-	ActivityHeadline         string   `json:"activity_headline,omitempty"`
-	ActivityImages           []string `json:"activity_images,omitempty"`
-	ActivityIsVideo          bool     `json:"activity_is_video,omitempty"`
-	ActivityPostedAt         string   `json:"activity_posted_at,omitempty"`
-	ActivityReactionsCount   int      `json:"activity_reactions_count,omitempty"`
-	ActivityRepostsCount     int      `json:"activity_reposts_count,omitempty"`
-	ActivityText             string   `json:"activity_text,omitempty"`
-	ActivityTopComments      []string `json:"activity_top_comments,omitempty"`
-	ActivityVideos           []string `json:"activity_videos,omitempty"`
+	ActivityURL            string   `json:"activity_url,omitempty"`
+	ActivityID             string   `json:"activity_id,omitempty"`
+	AuthorName             string   `json:"author_name,omitempty"`
+	AuthorType             string   `json:"author_type,omitempty"`
+	AuthorURL              string   `json:"author_url,omitempty"`
+	ActivityCommentsCount  int      `json:"activity_comments_count,omitempty"`
+	ActivityHashtags       []string `json:"activity_hashtags,omitempty"`
+	ActivityHeadline       string   `json:"activity_headline,omitempty"`
+	ActivityImages         []string `json:"activity_images,omitempty"`
+	ActivityIsVideo        bool     `json:"activity_is_video,omitempty"`
+	ActivityPostedAt       string   `json:"activity_posted_at,omitempty"`
+	ActivityReactionsCount int      `json:"activity_reactions_count,omitempty"`
+	ActivityRepostsCount   int      `json:"activity_reposts_count,omitempty"`
+	ActivityText           string   `json:"activity_text,omitempty"`
+	ActivityTopComments    []string `json:"activity_top_comments,omitempty"`
+	ActivityVideos         []string `json:"activity_videos,omitempty"`
 }
 
 type CaaResponse struct {
@@ -750,4 +750,202 @@ type CjaParams struct {
 	AnnualRevenueMin  int      `json:"annual_revenue_min,omitempty"`
 	AnnualRevenueMax  int      `json:"annual_revenue_max,omitempty"`
 	Page              int      `json:"page,omitempty"`
+}
+
+type Signal struct {
+	Name      string `json:"name,omitempty"`
+	TimeFrame int    `json:"time_frame,omitempty"`
+	Bucket    string `json:"bucket,omitempty"`
+}
+
+type ContactSignal struct {
+	FullName   string `json:"full_name,omitempty"`
+	CurrentJob struct {
+		Title string `json:"title,omitempty"`
+	} `json:"current_job,omitempty"`
+	Company struct {
+		Name         string `json:"name,omitempty"`
+		Linkedin     string `json:"linkedin,omitempty"`
+		Website      string `json:"website,omitempty"`
+		Industry     string `json:"industry,omitempty"`
+		MainLocation struct {
+			Country string `json:"country,omitempty"`
+			State   string `json:"state,omitempty"`
+			City    string `json:"city,omitempty"`
+		} `json:"main_location,omitempty"`
+		Social struct {
+			Linkedin string `json:"linkedin,omitempty"`
+			Facebook string `json:"facebook,omitempty"`
+			Twitter  string `json:"twitter,omitempty"`
+		} `json:"social,omitempty"`
+	} `json:"company,omitempty"`
+	Location struct {
+		Country string `json:"country,omitempty"`
+		State   string `json:"state,omitempty"`
+		City    string `json:"city,omitempty"`
+	} `json:"location,omitempty"`
+	Social struct {
+		Linkedin string `json:"linkedin,omitempty"`
+		Facebook string `json:"facebook,omitempty"`
+		Twitter  string `json:"twitter,omitempty"`
+	} `json:"social,omitempty"`
+	Signal Signal `json:"signal,omitempty"`
+}
+
+type PsaResponse struct {
+	BaseResponse
+	Contacts []ContactSignal `json:"contacts"`
+}
+
+type PsaParams struct {
+	SignalName string `json:"signal_name"`
+	TimeFrame  int    `json:"time_frame"`
+	Bucket     string `json:"bucket"`
+	Page       int    `json:"page,omitempty"`
+}
+
+type CompanySignal struct {
+	Name      string `json:"name,omitempty"`
+	Website   string `json:"website,omitempty"`
+	Domain    string `json:"domain,omitempty"`
+	Employees struct {
+		Range string `json:"range,omitempty"`
+	} `json:"employees,omitempty"`
+	Industry     string `json:"industry,omitempty"`
+	Overview     string `json:"overview,omitempty"`
+	Type         string `json:"type,omitempty"`
+	MainLocation struct {
+		Country string `json:"country,omitempty"`
+		State   string `json:"state,omitempty"`
+		City    string `json:"city,omitempty"`
+		Address string `json:"address,omitempty"`
+	} `json:"main_location,omitempty"`
+	Social struct {
+		Facebook string `json:"facebook,omitempty"`
+		Linkedin string `json:"linkedin,omitempty"`
+		Twitter  string `json:"twitter,omitempty"`
+	} `json:"social,omitempty"`
+	Signal Signal `json:"signal,omitempty"`
+}
+
+type CsaResponse struct {
+	BaseResponse
+	Companies []CompanySignal `json:"companies"`
+}
+
+type CsaParams struct {
+	SignalName string `json:"signal_name"`
+	TimeFrame  int    `json:"time_frame"`
+	Bucket     string `json:"bucket"`
+	Page       int    `json:"page,omitempty"`
+}
+
+type JobChangeCompanySnapshot struct {
+	CompanyLinkedinURL string `json:"company_linkedin_url,omitempty"`
+	CompanyLinkedinID  string `json:"company_linkedin_id,omitempty"`
+	CompanyName        string `json:"company_name,omitempty"`
+	Title              string `json:"title,omitempty"`
+}
+
+type JobChange struct {
+	Type        string                   `json:"type,omitempty"`
+	LinkedinURL string                   `json:"linkedin_url,omitempty"`
+	DetectedAt  string                   `json:"detected_at,omitempty"`
+	From        JobChangeCompanySnapshot `json:"from,omitempty"`
+	To          JobChangeCompanySnapshot `json:"to,omitempty"`
+}
+
+type JcaResponse struct {
+	BaseResponse
+	JobChanges []JobChange `json:"job_changes"`
+}
+
+type JcaParams struct {
+	StartDate string `json:"start_date"`
+	EndDate   string `json:"end_date"`
+	Type      string `json:"type,omitempty"`
+	Page      int    `json:"page,omitempty"`
+}
+
+type ClfProfile struct {
+	FirstName          string        `json:"first_name,omitempty"`
+	LastName           string        `json:"last_name,omitempty"`
+	FullName           string        `json:"full_name,omitempty"`
+	LinkedinURL        string        `json:"linkedin_url,omitempty"`
+	Summary            string        `json:"summary,omitempty"`
+	FollowersCount     int           `json:"followers_count,omitempty"`
+	Facebook           string        `json:"facebook,omitempty"`
+	Twitter            string        `json:"twitter,omitempty"`
+	Avatar             string        `json:"avatar,omitempty"`
+	Country            string        `json:"country,omitempty"`
+	State              string        `json:"state,omitempty"`
+	City               string        `json:"city,omitempty"`
+	JobTitle           string        `json:"job_title,omitempty"`
+	JobTitleCategories []string      `json:"job_title_categories,omitempty"`
+	CompanyName        string        `json:"company_name,omitempty"`
+	CompanyLinkedin    string        `json:"company_linkedin,omitempty"`
+	CompanyWebsite     string        `json:"company_website,omitempty"`
+	CompanySize        string        `json:"company_size,omitempty"`
+	CompanyIndustry    string        `json:"company_industry,omitempty"`
+	CompanyFacebook    string        `json:"company_facebook,omitempty"`
+	CompanyTwitter     string        `json:"company_twitter,omitempty"`
+	CompanyCountry     string        `json:"company_country,omitempty"`
+	CompanyState       string        `json:"company_state,omitempty"`
+	CompanyCity        string        `json:"company_city,omitempty"`
+	Experiences        []interface{} `json:"experiences,omitempty"`
+	Educations         []interface{} `json:"educations,omitempty"`
+	Interests          []string      `json:"interests,omitempty"`
+	Skills             []string      `json:"skills,omitempty"`
+	Certifications     []interface{} `json:"certifications,omitempty"`
+	Projects           []interface{} `json:"projects,omitempty"`
+	Publications       []interface{} `json:"publications,omitempty"`
+	Recommendations    []interface{} `json:"recommendations,omitempty"`
+	ServiceOffers      []interface{} `json:"service_offers,omitempty"`
+	Volunteering       []interface{} `json:"volunteering,omitempty"`
+	Languages          []interface{} `json:"languages,omitempty"`
+}
+
+type ClfResponse struct {
+	BaseResponse
+	Profiles []ClfProfile `json:"profiles"`
+}
+
+type ClfParams struct {
+	Query string `json:"query"`
+}
+
+type NapResponse struct {
+	BaseResponse
+	NormalizedName string `json:"normalized_name"`
+}
+
+type NapParams struct {
+	PersonName string `json:"person_name"`
+}
+
+type NauResponse struct {
+	BaseResponse
+	NormalizedUrl string `json:"normalized_url"`
+}
+
+type NauParams struct {
+	Url string `json:"url"`
+}
+
+type GdcResponse struct {
+	BaseResponse
+	OffersDemo string `json:"offers_demo"`
+}
+
+type GdcParams struct {
+	Url string `json:"url"`
+}
+
+type CotResponse struct {
+	BaseResponse
+	OffersFreeTrial string `json:"offers_free_trial"`
+}
+
+type CotParams struct {
+	Url string `json:"url"`
 }

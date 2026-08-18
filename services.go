@@ -636,3 +636,164 @@ func mapToStruct(data map[string]interface{}, result interface{}) error {
 	// Unmarshal JSON bytes to struct
 	return json.Unmarshal(jsonData, result)
 }
+
+// PSA Service - Contact Signals API
+func (s *Service) GetContactSignals(params PsaParams) (*PsaResponse, error) {
+	if params.SignalName == "" {
+		return nil, fmt.Errorf("signal_name is required")
+	}
+	if params.Bucket == "" {
+		return nil, fmt.Errorf("bucket is required")
+	}
+
+	response, err := s.client.Post("/psa", params)
+	if err != nil {
+		return nil, fmt.Errorf("PSA service error: %w", err)
+	}
+
+	var result PsaResponse
+	if err := mapToStruct(response, &result); err != nil {
+		return nil, fmt.Errorf("failed to parse response: %w", err)
+	}
+
+	return &result, nil
+}
+
+// CSA Service - Company Signals API
+func (s *Service) GetCompanySignals(params CsaParams) (*CsaResponse, error) {
+	if params.SignalName == "" {
+		return nil, fmt.Errorf("signal_name is required")
+	}
+	if params.Bucket == "" {
+		return nil, fmt.Errorf("bucket is required")
+	}
+
+	response, err := s.client.Post("/csa", params)
+	if err != nil {
+		return nil, fmt.Errorf("CSA service error: %w", err)
+	}
+
+	var result CsaResponse
+	if err := mapToStruct(response, &result); err != nil {
+		return nil, fmt.Errorf("failed to parse response: %w", err)
+	}
+
+	return &result, nil
+}
+
+// JCA Service - Job Changes API
+func (s *Service) GetJobChanges(params JcaParams) (*JcaResponse, error) {
+	if params.StartDate == "" {
+		return nil, fmt.Errorf("start_date is required")
+	}
+	if params.EndDate == "" {
+		return nil, fmt.Errorf("end_date is required")
+	}
+
+	response, err := s.client.Post("/jca", params)
+	if err != nil {
+		return nil, fmt.Errorf("JCA service error: %w", err)
+	}
+
+	var result JcaResponse
+	if err := mapToStruct(response, &result); err != nil {
+		return nil, fmt.Errorf("failed to parse response: %w", err)
+	}
+
+	return &result, nil
+}
+
+// CLF Service - Contact Lookalikes API
+func (s *Service) FindContactLookalikes(params ClfParams) (*ClfResponse, error) {
+	if params.Query == "" {
+		return nil, fmt.Errorf("query is required")
+	}
+
+	response, err := s.client.Post("/clf", params)
+	if err != nil {
+		return nil, fmt.Errorf("CLF service error: %w", err)
+	}
+
+	var result ClfResponse
+	if err := mapToStruct(response, &result); err != nil {
+		return nil, fmt.Errorf("failed to parse response: %w", err)
+	}
+
+	return &result, nil
+}
+
+// NAP Service - Normalize Person Name
+func (s *Service) NormalizePersonName(params NapParams) (*NapResponse, error) {
+	if params.PersonName == "" {
+		return nil, fmt.Errorf("person_name is required")
+	}
+
+	response, err := s.client.Post("/nap", params)
+	if err != nil {
+		return nil, fmt.Errorf("NAP service error: %w", err)
+	}
+
+	var result NapResponse
+	if err := mapToStruct(response, &result); err != nil {
+		return nil, fmt.Errorf("failed to parse response: %w", err)
+	}
+
+	return &result, nil
+}
+
+// NAU Service - Normalize URL
+func (s *Service) NormalizeUrl(params NauParams) (*NauResponse, error) {
+	if params.Url == "" {
+		return nil, fmt.Errorf("url is required")
+	}
+
+	response, err := s.client.Post("/nau", params)
+	if err != nil {
+		return nil, fmt.Errorf("NAU service error: %w", err)
+	}
+
+	var result NauResponse
+	if err := mapToStruct(response, &result); err != nil {
+		return nil, fmt.Errorf("failed to parse response: %w", err)
+	}
+
+	return &result, nil
+}
+
+// GDC Service - Company Gives Demo Checker
+func (s *Service) GivesDemo(params GdcParams) (*GdcResponse, error) {
+	if params.Url == "" {
+		return nil, fmt.Errorf("url is required")
+	}
+
+	response, err := s.client.Post("/gdc", params)
+	if err != nil {
+		return nil, fmt.Errorf("GDC service error: %w", err)
+	}
+
+	var result GdcResponse
+	if err := mapToStruct(response, &result); err != nil {
+		return nil, fmt.Errorf("failed to parse response: %w", err)
+	}
+
+	return &result, nil
+}
+
+// COT Service - Company Offers Free Trial Checker
+func (s *Service) OffersFreeTrial(params CotParams) (*CotResponse, error) {
+	if params.Url == "" {
+		return nil, fmt.Errorf("url is required")
+	}
+
+	response, err := s.client.Post("/cot", params)
+	if err != nil {
+		return nil, fmt.Errorf("COT service error: %w", err)
+	}
+
+	var result CotResponse
+	if err := mapToStruct(response, &result); err != nil {
+		return nil, fmt.Errorf("failed to parse response: %w", err)
+	}
+
+	return &result, nil
+}

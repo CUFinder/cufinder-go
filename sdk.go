@@ -267,6 +267,56 @@ func (s *SDK) CJA(params CjaParams) (*CjaResponse, error) {
 	return s.service.SearchCompanyJobs(params)
 }
 
+// PSA - Contact Signals API
+func (s *SDK) PSA(params PsaParams) (*PsaResponse, error) {
+	return s.service.GetContactSignals(params)
+}
+
+// CSA - Company Signals API
+func (s *SDK) CSA(params CsaParams) (*CsaResponse, error) {
+	return s.service.GetCompanySignals(params)
+}
+
+// JCA - Job Changes API
+func (s *SDK) JCA(params JcaParams) (*JcaResponse, error) {
+	return s.service.GetJobChanges(params)
+}
+
+// CLF - Contact Lookalikes API
+func (s *SDK) CLF(query string) (*ClfResponse, error) {
+	return s.service.FindContactLookalikes(ClfParams{
+		Query: query,
+	})
+}
+
+// NAP - Normalize Person Name
+func (s *SDK) NAP(personName string) (*NapResponse, error) {
+	return s.service.NormalizePersonName(NapParams{
+		PersonName: personName,
+	})
+}
+
+// NAU - Normalize URL
+func (s *SDK) NAU(url string) (*NauResponse, error) {
+	return s.service.NormalizeUrl(NauParams{
+		Url: url,
+	})
+}
+
+// GDC - Company Gives Demo Checker
+func (s *SDK) GDC(url string) (*GdcResponse, error) {
+	return s.service.GivesDemo(GdcParams{
+		Url: url,
+	})
+}
+
+// COT - Company Offers Free Trial Checker
+func (s *SDK) COT(url string) (*CotResponse, error) {
+	return s.service.OffersFreeTrial(CotParams{
+		Url: url,
+	})
+}
+
 // GetClient returns the underlying HTTP client for advanced usage
 func (s *SDK) GetClient() *Client {
 	return s.client
