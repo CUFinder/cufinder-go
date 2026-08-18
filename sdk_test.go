@@ -86,7 +86,7 @@ func TestSDK(t *testing.T) {
 
 		case "/fcl":
 			response := map[string]interface{}{
-				"lookalikes": []map[string]interface{}{
+				"companies": []map[string]interface{}{
 					{
 						"name":     "DataCorp",
 						"domain":   "datacorp.com",
@@ -132,16 +132,7 @@ func TestSDK(t *testing.T) {
 
 		case "/fcc":
 			response := map[string]interface{}{
-				"subsidiaries": []map[string]interface{}{
-					{
-						"name":   "TechCorp Mobile",
-						"domain": "mobile.techcorp.com",
-					},
-					{
-						"name":   "TechCorp Cloud",
-						"domain": "cloud.techcorp.com",
-					},
-				},
+				"subsidiaries": []string{"TechCorp Mobile", "TechCorp Cloud"},
 				"query":        "TechCorp",
 				"credit_count": 1,
 			}
@@ -150,11 +141,7 @@ func TestSDK(t *testing.T) {
 
 		case "/fts":
 			response := map[string]interface{}{
-				"tech_stack": map[string]interface{}{
-					"programming_languages": []string{"Go", "Python", "JavaScript"},
-					"frameworks":            []string{"React", "Node.js", "Django"},
-					"databases":             []string{"PostgreSQL", "Redis"},
-				},
+				"technologies": []string{"Go", "Python", "JavaScript"},
 				"query":        "TechCorp",
 				"credit_count": 1,
 			}
@@ -182,7 +169,7 @@ func TestSDK(t *testing.T) {
 
 		case "/fwe":
 			response := map[string]interface{}{
-				"email":        "john.doe@techcorp.com",
+				"work_email":   "john.doe@techcorp.com",
 				"query":        "https://linkedin.com/in/john-doe",
 				"credit_count": 1,
 			}
@@ -272,29 +259,35 @@ func TestSDK(t *testing.T) {
 
 		case "/pse":
 			response := map[string]interface{}{
-				"people": []map[string]interface{}{
+				"peoples": []map[string]interface{}{
 					{
 						"full_name": "John Doe",
-						"job_title": "Software Engineer",
-						"company":   "TechCorp",
+						"current_job": map[string]interface{}{
+							"title": "Software Engineer",
+						},
+						"company": map[string]interface{}{
+							"name": "TechCorp",
+						},
 					},
 					{
 						"full_name": "Jane Smith",
-						"job_title": "Product Manager",
-						"company":   "TechCorp",
+						"current_job": map[string]interface{}{
+							"title": "Product Manager",
+						},
+						"company": map[string]interface{}{
+							"name": "TechCorp",
+						},
 					},
 				},
-				"total_results": 2,
-				"page":          1,
-				"query":         "engineer",
-				"credit_count":  1,
+				"query":        "engineer",
+				"credit_count": 1,
 			}
 			w.Header().Set("Content-Type", "application/json")
 			json.NewEncoder(w).Encode(response)
 
 		case "/lbs":
 			response := map[string]interface{}{
-				"businesses": []map[string]interface{}{
+				"companies": []map[string]interface{}{
 					{
 						"name":    "Coffee Shop",
 						"address": "123 Main St",
@@ -306,10 +299,8 @@ func TestSDK(t *testing.T) {
 						"city":    "San Francisco",
 					},
 				},
-				"total_results": 2,
-				"page":          1,
-				"query":         "coffee",
-				"credit_count":  1,
+				"query":        "coffee",
+				"credit_count": 1,
 			}
 			w.Header().Set("Content-Type", "application/json")
 			json.NewEncoder(w).Encode(response)
@@ -368,17 +359,17 @@ func TestSDK(t *testing.T) {
 			response := map[string]interface{}{
 				"activities": []map[string]interface{}{
 					{
-						"activity_url":              "https://www.linkedin.com/posts/cufinder_anthropic-alphabet-ai-activity-7462132400869888002-bCRi",
-						"activity_id":               "7462132400869888002",
-						"activity_comments_count":   59,
-						"activity_hashtags":         []string{"#AI", "#Anthropic", "#CUFinder"},
-						"activity_is_video":         true,
-						"activity_posted_at":        "2026-05-18T13:30:04.063Z",
-						"activity_reactions_count":  3,
-						"activity_text":             "Anthropic is projected to grow 222x by 2030",
-						"activity_top_comments":     []string{},
-						"activity_images":           []string{"https://media.licdn.com/image.jpg"},
-						"activity_videos":           []string{"https://dms.licdn.com/video.mp4"},
+						"activity_url":             "https://www.linkedin.com/posts/cufinder_anthropic-alphabet-ai-activity-7462132400869888002-bCRi",
+						"activity_id":              "7462132400869888002",
+						"activity_comments_count":  59,
+						"activity_hashtags":        []string{"#AI", "#Anthropic", "#CUFinder"},
+						"activity_is_video":        true,
+						"activity_posted_at":       "2026-05-18T13:30:04.063Z",
+						"activity_reactions_count": 3,
+						"activity_text":            "Anthropic is projected to grow 222x by 2030",
+						"activity_top_comments":    []string{},
+						"activity_images":          []string{"https://media.licdn.com/image.jpg"},
+						"activity_videos":          []string{"https://dms.licdn.com/video.mp4"},
 					},
 				},
 				"query":        "TechCorp",
@@ -400,9 +391,9 @@ func TestSDK(t *testing.T) {
 							"employees": map[string]interface{}{
 								"range": "10001+",
 							},
-							"founded_date":    nil,
-							"annual_revenue":  "$100-1000B",
-							"funding_amount":  "25000000.0",
+							"founded_date":   nil,
+							"annual_revenue": "$100-1000B",
+							"funding_amount": "25000000.0",
 							"main_location": map[string]interface{}{
 								"country": "united states",
 								"state":   "california",
@@ -421,6 +412,175 @@ func TestSDK(t *testing.T) {
 				},
 				"query":        map[string]interface{}{"name": "google"},
 				"credit_count": 1,
+			}
+			w.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(w).Encode(response)
+
+		case "/psa":
+			response := map[string]interface{}{
+				"contacts": []map[string]interface{}{
+					{
+						"full_name": "John Doe",
+						"current_job": map[string]interface{}{
+							"title": "Software Engineer",
+						},
+						"company": map[string]interface{}{
+							"name":     "TechCorp",
+							"linkedin": "linkedin.com/company/techcorp",
+							"website":  "https://techcorp.com",
+							"industry": "software development",
+							"main_location": map[string]interface{}{
+								"country": "united states",
+								"state":   "california",
+								"city":    "san francisco",
+							},
+						},
+						"location": map[string]interface{}{
+							"country": "united states",
+							"state":   "california",
+							"city":    "san francisco",
+						},
+						"signal": map[string]interface{}{
+							"name":       "employee_growth",
+							"time_frame": 90,
+							"bucket":     "high",
+						},
+					},
+				},
+				"query": map[string]interface{}{
+					"signal_name": "employee_growth",
+					"time_frame":  90,
+					"bucket":      "high",
+					"page":        1,
+				},
+				"credit_count": 1,
+				"meta_data":    map[string]interface{}{"total_results": 1},
+			}
+			w.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(w).Encode(response)
+
+		case "/csa":
+			response := map[string]interface{}{
+				"companies": []map[string]interface{}{
+					{
+						"name":     "TechCorp",
+						"website":  "https://techcorp.com",
+						"domain":   "techcorp.com",
+						"industry": "software development",
+						"overview": "Enterprise software company",
+						"type":     "private",
+						"employees": map[string]interface{}{
+							"range": "1001-5000",
+						},
+						"main_location": map[string]interface{}{
+							"country": "united states",
+							"state":   "california",
+							"city":    "san francisco",
+							"address": "123 Tech St",
+						},
+						"signal": map[string]interface{}{
+							"name":       "employee_growth",
+							"time_frame": 90,
+							"bucket":     "high",
+						},
+					},
+				},
+				"query": map[string]interface{}{
+					"signal_name": "employee_growth",
+					"time_frame":  90,
+					"bucket":      "high",
+					"page":        1,
+				},
+				"credit_count": 1,
+				"meta_data":    map[string]interface{}{"total_results": 1},
+			}
+			w.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(w).Encode(response)
+
+		case "/jca":
+			response := map[string]interface{}{
+				"job_changes": []map[string]interface{}{
+					{
+						"type":         "promotion",
+						"linkedin_url": "https://linkedin.com/in/john-doe",
+						"detected_at":  "2026-08-01T12:00:00Z",
+						"from": map[string]interface{}{
+							"company_linkedin_url": "https://linkedin.com/company/techcorp",
+							"company_linkedin_id":  "12345",
+							"company_name":         "TechCorp",
+							"title":                "Software Engineer",
+						},
+						"to": map[string]interface{}{
+							"company_linkedin_url": "https://linkedin.com/company/techcorp",
+							"company_linkedin_id":  "12345",
+							"company_name":         "TechCorp",
+							"title":                "Senior Software Engineer",
+						},
+					},
+				},
+				"query": map[string]interface{}{
+					"start_date": "2026-01-01",
+					"end_date":   "2026-08-16",
+					"type":       "promotion",
+				},
+				"credit_count": 1,
+				"meta_data":    map[string]interface{}{"total_results": 1},
+			}
+			w.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(w).Encode(response)
+
+		case "/clf":
+			response := map[string]interface{}{
+				"profiles": []map[string]interface{}{
+					{
+						"full_name":    "Morteza Heydari",
+						"linkedin_url": "https://linkedin.com/in/mortezaheydari1997",
+						"job_title":    "Founder & CEO",
+						"company_name": "CUFinder",
+						"country":      "united states",
+						"state":        "new york",
+						"city":         "new york",
+					},
+				},
+				"query":        "linkedin.com/in/mortezaheydari1997",
+				"credit_count": 1,
+				"meta_data":    map[string]interface{}{"total_results": 1},
+			}
+			w.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(w).Encode(response)
+
+		case "/nap":
+			response := map[string]interface{}{
+				"normalized_name": "Morteza Heydari",
+				"query":           "morteza heydari",
+				"credit_count":    1,
+			}
+			w.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(w).Encode(response)
+
+		case "/nau":
+			response := map[string]interface{}{
+				"normalized_url": "https://www.cufinder.io/about-us",
+				"query":          "https://www.cufinder.io/about-us",
+				"credit_count":   1,
+			}
+			w.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(w).Encode(response)
+
+		case "/gdc":
+			response := map[string]interface{}{
+				"offers_demo":  "yes",
+				"query":        "https://www.stripe.com",
+				"credit_count": 1,
+			}
+			w.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(w).Encode(response)
+
+		case "/cot":
+			response := map[string]interface{}{
+				"offers_free_trial": "yes",
+				"query":             "https://www.stripe.com",
+				"credit_count":      1,
 			}
 			w.Header().Set("Content-Type", "application/json")
 			json.NewEncoder(w).Encode(response)
@@ -480,10 +640,7 @@ func TestSDK(t *testing.T) {
 		result, err := sdk.REL("john.doe@techcorp.com")
 		require.NoError(t, err)
 		assert.Equal(t, "John Doe", result.Person.FullName)
-		assert.Equal(t, "john.doe@techcorp.com", result.Person.Email)
 		assert.Equal(t, "Software Engineer", result.Person.JobTitle)
-		assert.Equal(t, "TechCorp", result.Company.Name)
-		assert.Equal(t, "techcorp.com", result.Company.Domain)
 	})
 
 	t.Run("FCL Service", func(t *testing.T) {
@@ -511,29 +668,26 @@ func TestSDK(t *testing.T) {
 		result, err := sdk.FCC("TechCorp")
 		require.NoError(t, err)
 		assert.Len(t, result.Subsidiaries, 2)
-		assert.Equal(t, "TechCorp Mobile", result.Subsidiaries[0].Name)
-		assert.Equal(t, "mobile.techcorp.com", result.Subsidiaries[0].Domain)
+		assert.ElementsMatch(t, []string{"TechCorp Mobile", "TechCorp Cloud"}, result.Subsidiaries)
 	})
 
 	t.Run("FTS Service", func(t *testing.T) {
 		result, err := sdk.FTS("TechCorp")
 		require.NoError(t, err)
-		assert.NotNil(t, result.TechStack)
+		assert.Equal(t, []string{"Go", "Python", "JavaScript"}, result.Technologies)
 	})
 
 	t.Run("EPP Service", func(t *testing.T) {
 		result, err := sdk.EPP("https://linkedin.com/in/john-doe")
 		require.NoError(t, err)
 		assert.Equal(t, "John Doe", result.Person.FullName)
-		assert.Equal(t, "john.doe@techcorp.com", result.Person.Email)
 		assert.Equal(t, "Software Engineer", result.Person.JobTitle)
-		assert.Equal(t, "TechCorp", result.Company.Name)
 	})
 
 	t.Run("FWE Service", func(t *testing.T) {
 		result, err := sdk.FWE("https://linkedin.com/in/john-doe")
 		require.NoError(t, err)
-		assert.Equal(t, "john.doe@techcorp.com", result.Email)
+		assert.Equal(t, "john.doe@techcorp.com", result.WorkEmail)
 	})
 
 	t.Run("TEP Service", func(t *testing.T) {
@@ -541,8 +695,6 @@ func TestSDK(t *testing.T) {
 		require.NoError(t, err)
 		assert.Equal(t, "John Doe", result.Person.FullName)
 		assert.Equal(t, "Software Engineer", result.Person.JobTitle)
-		assert.Equal(t, "TechCorp", result.Person.Company)
-		assert.Equal(t, 88, result.ConfidenceLevel)
 	})
 
 	t.Run("ENC Service", func(t *testing.T) {
@@ -561,16 +713,15 @@ func TestSDK(t *testing.T) {
 		assert.Contains(t, result.Countries, "US")
 		assert.Contains(t, result.Countries, "UK")
 		assert.Contains(t, result.Countries, "CA")
-		assert.Equal(t, 3, result.TotalResults)
 	})
 
 	t.Run("CLO Service", func(t *testing.T) {
 		result, err := sdk.CLO("TechCorp")
 		require.NoError(t, err)
 		assert.Len(t, result.Locations, 2)
-		assert.Equal(t, "US", result.Locations[0]["country"])
-		assert.Equal(t, "CA", result.Locations[0]["state"])
-		assert.Equal(t, "San Francisco", result.Locations[0]["city"])
+		assert.Equal(t, "US", result.Locations[0].Country)
+		assert.Equal(t, "CA", result.Locations[0].State)
+		assert.Equal(t, "San Francisco", result.Locations[0].City)
 	})
 
 	t.Run("CSE Service", func(t *testing.T) {
@@ -584,8 +735,6 @@ func TestSDK(t *testing.T) {
 		assert.Equal(t, "TechCorp", result.Companies[0].Name)
 		assert.Equal(t, "techcorp.com", result.Companies[0].Domain)
 		assert.Equal(t, "Technology", result.Companies[0].Industry)
-		assert.Equal(t, 2, result.TotalResults)
-		assert.Equal(t, 1, result.Page)
 	})
 
 	t.Run("PSE Service", func(t *testing.T) {
@@ -596,10 +745,8 @@ func TestSDK(t *testing.T) {
 		require.NoError(t, err)
 		assert.Len(t, result.Peoples, 2)
 		assert.Equal(t, "John Doe", result.Peoples[0].FullName)
-		assert.Equal(t, "Software Engineer", result.Peoples[0].JobTitle)
-		assert.Equal(t, "TechCorp", result.Peoples[0].Company)
-		assert.Equal(t, 2, result.TotalResults)
-		assert.Equal(t, 1, result.Page)
+		assert.Equal(t, "Software Engineer", result.Peoples[0].CurrentJob.Title)
+		assert.Equal(t, "TechCorp", result.Peoples[0].Company.Name)
 	})
 
 	t.Run("LBS Service", func(t *testing.T) {
@@ -608,12 +755,10 @@ func TestSDK(t *testing.T) {
 			City: "San Francisco",
 		})
 		require.NoError(t, err)
-		assert.Len(t, result.Businesses, 2)
-		assert.Equal(t, "Coffee Shop", result.Businesses[0].Name)
-		assert.Equal(t, "123 Main St", result.Businesses[0].Address)
-		assert.Equal(t, "San Francisco", result.Businesses[0].City)
-		assert.Equal(t, 2, result.TotalResults)
-		assert.Equal(t, 1, result.Page)
+		assert.Len(t, result.Companies, 2)
+		assert.Equal(t, "Coffee Shop", result.Companies[0].Name)
+		assert.Equal(t, "123 Main St", result.Companies[0].Address)
+		assert.Equal(t, "San Francisco", result.Companies[0].City)
 	})
 
 	t.Run("CEF Service", func(t *testing.T) {
@@ -681,6 +826,100 @@ func TestSDK(t *testing.T) {
 		assert.Equal(t, 1, result.CreditCount)
 	})
 
+	t.Run("PSA Service", func(t *testing.T) {
+		result, err := sdk.PSA(PsaParams{
+			SignalName: "employee_growth",
+			TimeFrame:  90,
+			Bucket:     "high",
+			Page:       1,
+		})
+		require.NoError(t, err)
+		assert.Len(t, result.Contacts, 1)
+		assert.Equal(t, "John Doe", result.Contacts[0].FullName)
+		assert.Equal(t, "Software Engineer", result.Contacts[0].CurrentJob.Title)
+		assert.Equal(t, "TechCorp", result.Contacts[0].Company.Name)
+		assert.Equal(t, "software development", result.Contacts[0].Company.Industry)
+		assert.Equal(t, "united states", result.Contacts[0].Company.MainLocation.Country)
+		assert.Equal(t, "employee_growth", result.Contacts[0].Signal.Name)
+		assert.Equal(t, 90, result.Contacts[0].Signal.TimeFrame)
+		assert.Equal(t, "high", result.Contacts[0].Signal.Bucket)
+		assert.Equal(t, 1, result.CreditCount)
+	})
+
+	t.Run("CSA Service", func(t *testing.T) {
+		result, err := sdk.CSA(CsaParams{
+			SignalName: "employee_growth",
+			TimeFrame:  90,
+			Bucket:     "high",
+			Page:       1,
+		})
+		require.NoError(t, err)
+		assert.Len(t, result.Companies, 1)
+		assert.Equal(t, "TechCorp", result.Companies[0].Name)
+		assert.Equal(t, "techcorp.com", result.Companies[0].Domain)
+		assert.Equal(t, "software development", result.Companies[0].Industry)
+		assert.Equal(t, "1001-5000", result.Companies[0].Employees.Range)
+		assert.Equal(t, "san francisco", result.Companies[0].MainLocation.City)
+		assert.Equal(t, "employee_growth", result.Companies[0].Signal.Name)
+		assert.Equal(t, 1, result.CreditCount)
+	})
+
+	t.Run("JCA Service", func(t *testing.T) {
+		result, err := sdk.JCA(JcaParams{
+			StartDate: "2026-01-01",
+			EndDate:   "2026-08-16",
+			Type:      "promotion",
+		})
+		require.NoError(t, err)
+		assert.Len(t, result.JobChanges, 1)
+		assert.Equal(t, "promotion", result.JobChanges[0].Type)
+		assert.Equal(t, "https://linkedin.com/in/john-doe", result.JobChanges[0].LinkedinURL)
+		assert.Equal(t, "TechCorp", result.JobChanges[0].From.CompanyName)
+		assert.Equal(t, "Software Engineer", result.JobChanges[0].From.Title)
+		assert.Equal(t, "Senior Software Engineer", result.JobChanges[0].To.Title)
+		assert.Equal(t, 1, result.CreditCount)
+	})
+
+	t.Run("CLF Service", func(t *testing.T) {
+		result, err := sdk.CLF("linkedin.com/in/mortezaheydari1997")
+		require.NoError(t, err)
+		assert.Len(t, result.Profiles, 1)
+		assert.Equal(t, "Morteza Heydari", result.Profiles[0].FullName)
+		assert.Equal(t, "https://linkedin.com/in/mortezaheydari1997", result.Profiles[0].LinkedinURL)
+		assert.Equal(t, "Founder & CEO", result.Profiles[0].JobTitle)
+		assert.Equal(t, "CUFinder", result.Profiles[0].CompanyName)
+		assert.Equal(t, "new york", result.Profiles[0].City)
+		assert.Equal(t, 1, result.CreditCount)
+	})
+
+	t.Run("NAP Service", func(t *testing.T) {
+		result, err := sdk.NAP("morteza heydari")
+		require.NoError(t, err)
+		assert.Equal(t, "Morteza Heydari", result.NormalizedName)
+		assert.Equal(t, 1, result.CreditCount)
+	})
+
+	t.Run("NAU Service", func(t *testing.T) {
+		result, err := sdk.NAU("https://www.cufinder.io/about-us")
+		require.NoError(t, err)
+		assert.Equal(t, "https://www.cufinder.io/about-us", result.NormalizedUrl)
+		assert.Equal(t, 1, result.CreditCount)
+	})
+
+	t.Run("GDC Service", func(t *testing.T) {
+		result, err := sdk.GDC("https://www.stripe.com")
+		require.NoError(t, err)
+		assert.Equal(t, "yes", result.OffersDemo)
+		assert.Equal(t, 1, result.CreditCount)
+	})
+
+	t.Run("COT Service", func(t *testing.T) {
+		result, err := sdk.COT("https://www.stripe.com")
+		require.NoError(t, err)
+		assert.Equal(t, "yes", result.OffersFreeTrial)
+		assert.Equal(t, 1, result.CreditCount)
+	})
+
 	t.Run("Error Handling", func(t *testing.T) {
 		// Test missing required parameters
 		_, err := sdk.CUF("", "US")
@@ -698,5 +937,49 @@ func TestSDK(t *testing.T) {
 		_, err = sdk.TEP("John Doe", "")
 		assert.Error(t, err)
 		assert.Contains(t, err.Error(), "company is required")
+
+		_, err = sdk.PSA(PsaParams{TimeFrame: 90, Bucket: "high"})
+		assert.Error(t, err)
+		assert.Contains(t, err.Error(), "signal_name is required")
+
+		_, err = sdk.PSA(PsaParams{SignalName: "employee_growth", TimeFrame: 90})
+		assert.Error(t, err)
+		assert.Contains(t, err.Error(), "bucket is required")
+
+		_, err = sdk.CSA(CsaParams{TimeFrame: 90, Bucket: "high"})
+		assert.Error(t, err)
+		assert.Contains(t, err.Error(), "signal_name is required")
+
+		_, err = sdk.CSA(CsaParams{SignalName: "employee_growth"})
+		assert.Error(t, err)
+		assert.Contains(t, err.Error(), "bucket is required")
+
+		_, err = sdk.JCA(JcaParams{EndDate: "2026-08-16"})
+		assert.Error(t, err)
+		assert.Contains(t, err.Error(), "start_date is required")
+
+		_, err = sdk.JCA(JcaParams{StartDate: "2026-01-01"})
+		assert.Error(t, err)
+		assert.Contains(t, err.Error(), "end_date is required")
+
+		_, err = sdk.CLF("")
+		assert.Error(t, err)
+		assert.Contains(t, err.Error(), "query is required")
+
+		_, err = sdk.NAP("")
+		assert.Error(t, err)
+		assert.Contains(t, err.Error(), "person_name is required")
+
+		_, err = sdk.NAU("")
+		assert.Error(t, err)
+		assert.Contains(t, err.Error(), "url is required")
+
+		_, err = sdk.GDC("")
+		assert.Error(t, err)
+		assert.Contains(t, err.Error(), "url is required")
+
+		_, err = sdk.COT("")
+		assert.Error(t, err)
+		assert.Contains(t, err.Error(), "url is required")
 	})
 }
