@@ -282,6 +282,13 @@ func (s *SDK) JCA(params JcaParams) (*JcaResponse, error) {
 	return s.service.GetJobChanges(params)
 }
 
+// CLF - Contact Lookalikes API
+func (s *SDK) CLF(query string) (*ClfResponse, error) {
+	return s.service.FindContactLookalikes(ClfParams{
+		Query: query,
+	})
+}
+
 // GetClient returns the underlying HTTP client for advanced usage
 func (s *SDK) GetClient() *Client {
 	return s.client

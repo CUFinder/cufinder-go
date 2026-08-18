@@ -702,3 +702,22 @@ func (s *Service) GetJobChanges(params JcaParams) (*JcaResponse, error) {
 
 	return &result, nil
 }
+
+// CLF Service - Contact Lookalikes API
+func (s *Service) FindContactLookalikes(params ClfParams) (*ClfResponse, error) {
+	if params.Query == "" {
+		return nil, fmt.Errorf("query is required")
+	}
+
+	response, err := s.client.Post("/clf", params)
+	if err != nil {
+		return nil, fmt.Errorf("CLF service error: %w", err)
+	}
+
+	var result ClfResponse
+	if err := mapToStruct(response, &result); err != nil {
+		return nil, fmt.Errorf("failed to parse response: %w", err)
+	}
+
+	return &result, nil
+}
