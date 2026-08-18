@@ -922,3 +922,12 @@ type NapResponse struct {
 type NapParams struct {
 	PersonName string `json:"person_name"`
 }
+
+type NauResponse struct {
+	BaseResponse
+	NormalizedUrl string `json:"normalized_url"`
+}
+
+type NauParams struct {
+	Url string `json:"url"`
+}

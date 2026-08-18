@@ -296,6 +296,13 @@ func (s *SDK) NAP(personName string) (*NapResponse, error) {
 	})
 }
 
+// NAU - Normalize URL
+func (s *SDK) NAU(url string) (*NauResponse, error) {
+	return s.service.NormalizeUrl(NauParams{
+		Url: url,
+	})
+}
+
 // GetClient returns the underlying HTTP client for advanced usage
 func (s *SDK) GetClient() *Client {
 	return s.client

@@ -740,3 +740,22 @@ func (s *Service) NormalizePersonName(params NapParams) (*NapResponse, error) {
 
 	return &result, nil
 }
+
+// NAU Service - Normalize URL
+func (s *Service) NormalizeUrl(params NauParams) (*NauResponse, error) {
+	if params.Url == "" {
+		return nil, fmt.Errorf("url is required")
+	}
+
+	response, err := s.client.Post("/nau", params)
+	if err != nil {
+		return nil, fmt.Errorf("NAU service error: %w", err)
+	}
+
+	var result NauResponse
+	if err := mapToStruct(response, &result); err != nil {
+		return nil, fmt.Errorf("failed to parse response: %w", err)
+	}
+
+	return &result, nil
+}
