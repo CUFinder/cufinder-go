@@ -49,7 +49,7 @@ func main() {
 
 ## API Reference
 
-This SDK covers all 32 Cufinder API (v2) endpoints:
+This SDK covers all 40 Cufinder API (v2) endpoints:
 
 - **CUF** - [Company Name to Domain](https://apidoc.cufinder.io/apis/company-name-to-domain)
 - **LCUF** - [LinkedIn Company URL Finder](https://apidoc.cufinder.io/apis/company-linkedin-url-finder)
@@ -83,6 +83,14 @@ This SDK covers all 32 Cufinder API (v2) endpoints:
 - **NAC** - [Company Name Normalizer](https://apidoc.cufinder.io/apis/company-name-normalizer)
 - **CAA** - [Company Activity API](https://apidoc.cufinder.io/apis/company-activity-api)
 - **CJA** - [Company Jobs API](https://apidoc.cufinder.io/apis/company-jobs-api)
+- **PSA** - [Contact Signals API](https://apidoc.cufinder.io/apis/contact-signals-api)
+- **CSA** - [Company Signals API](https://apidoc.cufinder.io/apis/company-signals-api)
+- **JCA** - [Job Changes API](https://apidoc.cufinder.io/apis/job-changes-api)
+- **CLF** - [Contact Lookalikes API](https://apidoc.cufinder.io/apis/contact-lookalikes-api)
+- **NAP** - [Person Name Normalizer](https://apidoc.cufinder.io/apis/person-name-normalizer)
+- **NAU** - [URL Normalizer](https://apidoc.cufinder.io/apis/url-normalizer)
+- **GDC** - [Gives Demo Checker](https://apidoc.cufinder.io/apis/gives-demo-checker)
+- **COT** - [Offers Free Trial Checker](https://apidoc.cufinder.io/apis/offers-free-trial-checker)
 
 
 **CUF - Company Name to Domain API**
@@ -491,6 +499,124 @@ for _, j := range result.Jobs {
 }
 ```
 
+**PSA - Contact Signals API**
+
+Find contacts based on company signals
+
+```go
+result, err := sdk.PSA(cufinder.PsaParams{
+    SignalName: "employee_growth",
+    TimeFrame:  90,
+    Bucket:     "high",
+    Page:       1,
+})
+if err != nil {
+    log.Fatal(err)
+}
+for _, c := range result.Contacts {
+    fmt.Printf("name: %v, company: %v, job: %v\n", c.FullName, c.Company.Name, c.CurrentJob.Title)
+}
+```
+
+**CSA - Company Signals API**
+
+Find companies based on signals
+
+```go
+result, err := sdk.CSA(cufinder.CsaParams{
+    SignalName: "employee_growth",
+    TimeFrame:  90,
+    Bucket:     "high",
+    Page:       1,
+})
+if err != nil {
+    log.Fatal(err)
+}
+for _, c := range result.Companies {
+    fmt.Printf("company: %v, domain: %v, industry: %v\n", c.Name, c.Domain, c.Industry)
+}
+```
+
+**JCA - Job Changes API**
+
+Find job changes within a date range
+
+```go
+result, err := sdk.JCA(cufinder.JcaParams{
+    StartDate: "2026-01-01",
+    EndDate:   "2026-08-16",
+    Type:      "promotion",
+})
+if err != nil {
+    log.Fatal(err)
+}
+for _, jc := range result.JobChanges {
+    fmt.Printf("type: %v, from: %v, to: %v\n", jc.Type, jc.From.Title, jc.To.Title)
+}
+```
+
+**CLF - Contact Lookalikes API**
+
+Find similar contacts based on a query
+
+```go
+result, err := sdk.CLF("linkedin.com/in/mortezaheydari1997")
+if err != nil {
+    log.Fatal(err)
+}
+for _, p := range result.Profiles {
+    fmt.Printf("name: %v, company: %v, job: %v\n", p.FullName, p.CompanyName, p.JobTitle)
+}
+```
+
+**NAP - Person Name Normalizer**
+
+Normalize a person name
+
+```go
+result, err := sdk.NAP("morteza heydari")
+if err != nil {
+    log.Fatal(err)
+}
+fmt.Printf("normalized: %v\n", result.NormalizedName)
+```
+
+**NAU - URL Normalizer**
+
+Normalize a URL
+
+```go
+result, err := sdk.NAU("https://www.cufinder.io/about-us")
+if err != nil {
+    log.Fatal(err)
+}
+fmt.Printf("normalized: %v\n", result.NormalizedUrl)
+```
+
+**GDC - Gives Demo Checker**
+
+Check if a company offers demos
+
+```go
+result, err := sdk.GDC("https://www.stripe.com")
+if err != nil {
+    log.Fatal(err)
+}
+fmt.Printf("offers demo: %v\n", result.OffersDemo)
+```
+
+**COT - Offers Free Trial Checker**
+
+Check if a company offers a free trial
+
+```go
+result, err := sdk.COT("https://www.stripe.com")
+if err != nil {
+    log.Fatal(err)
+}
+fmt.Printf("offers free trial: %v\n", result.OffersFreeTrial)
+```
+
 ## Error Handling
 
 The SDK returns errors for various scenarios:
@@ -564,6 +690,31 @@ type LbsParams struct {
     City            string
     Industry        string
     Page            int
+}
+
+type PsaParams struct {
+    SignalName  string
+    TimeFrame   int
+    Bucket      string
+    Page        int
+}
+
+type CsaParams struct {
+    SignalName  string
+    TimeFrame   int
+    Bucket      string
+    Page        int
+}
+
+type JcaParams struct {
+    StartDate   string
+    EndDate     string
+    Type        string
+    Page        int
+}
+
+type ClfParams struct {
+    Query       string
 }
 
 // Response types
