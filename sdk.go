@@ -267,6 +267,11 @@ func (s *SDK) CJA(params CjaParams) (*CjaResponse, error) {
 	return s.service.SearchCompanyJobs(params)
 }
 
+// PSA - Contact Signals API
+func (s *SDK) PSA(params PsaParams) (*PsaResponse, error) {
+	return s.service.GetContactSignals(params)
+}
+
 // GetClient returns the underlying HTTP client for advanced usage
 func (s *SDK) GetClient() *Client {
 	return s.client

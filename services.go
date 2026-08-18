@@ -636,3 +636,25 @@ func mapToStruct(data map[string]interface{}, result interface{}) error {
 	// Unmarshal JSON bytes to struct
 	return json.Unmarshal(jsonData, result)
 }
+
+// PSA Service - Contact Signals API
+func (s *Service) GetContactSignals(params PsaParams) (*PsaResponse, error) {
+	if params.SignalName == "" {
+		return nil, fmt.Errorf("signal_name is required")
+	}
+	if params.Bucket == "" {
+		return nil, fmt.Errorf("bucket is required")
+	}
+
+	response, err := s.client.Post("/psa", params)
+	if err != nil {
+		return nil, fmt.Errorf("PSA service error: %w", err)
+	}
+
+	var result PsaResponse
+	if err := mapToStruct(response, &result); err != nil {
+		return nil, fmt.Errorf("failed to parse response: %w", err)
+	}
+
+	return &result, nil
+}
