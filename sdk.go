@@ -272,6 +272,11 @@ func (s *SDK) PSA(params PsaParams) (*PsaResponse, error) {
 	return s.service.GetContactSignals(params)
 }
 
+// CSA - Company Signals API
+func (s *SDK) CSA(params CsaParams) (*CsaResponse, error) {
+	return s.service.GetCompanySignals(params)
+}
+
 // GetClient returns the underlying HTTP client for advanced usage
 func (s *SDK) GetClient() *Client {
 	return s.client

@@ -803,3 +803,39 @@ type PsaParams struct {
 	Bucket     string `json:"bucket"`
 	Page       int    `json:"page,omitempty"`
 }
+
+type CompanySignal struct {
+	Name      string `json:"name,omitempty"`
+	Website   string `json:"website,omitempty"`
+	Domain    string `json:"domain,omitempty"`
+	Employees struct {
+		Range string `json:"range,omitempty"`
+	} `json:"employees,omitempty"`
+	Industry     string `json:"industry,omitempty"`
+	Overview     string `json:"overview,omitempty"`
+	Type         string `json:"type,omitempty"`
+	MainLocation struct {
+		Country string `json:"country,omitempty"`
+		State   string `json:"state,omitempty"`
+		City    string `json:"city,omitempty"`
+		Address string `json:"address,omitempty"`
+	} `json:"main_location,omitempty"`
+	Social struct {
+		Facebook string `json:"facebook,omitempty"`
+		Linkedin string `json:"linkedin,omitempty"`
+		Twitter  string `json:"twitter,omitempty"`
+	} `json:"social,omitempty"`
+	Signal Signal `json:"signal,omitempty"`
+}
+
+type CsaResponse struct {
+	BaseResponse
+	Companies []CompanySignal `json:"companies"`
+}
+
+type CsaParams struct {
+	SignalName string `json:"signal_name"`
+	TimeFrame  int    `json:"time_frame"`
+	Bucket     string `json:"bucket"`
+	Page       int    `json:"page,omitempty"`
+}

@@ -658,3 +658,25 @@ func (s *Service) GetContactSignals(params PsaParams) (*PsaResponse, error) {
 
 	return &result, nil
 }
+
+// CSA Service - Company Signals API
+func (s *Service) GetCompanySignals(params CsaParams) (*CsaResponse, error) {
+	if params.SignalName == "" {
+		return nil, fmt.Errorf("signal_name is required")
+	}
+	if params.Bucket == "" {
+		return nil, fmt.Errorf("bucket is required")
+	}
+
+	response, err := s.client.Post("/csa", params)
+	if err != nil {
+		return nil, fmt.Errorf("CSA service error: %w", err)
+	}
+
+	var result CsaResponse
+	if err := mapToStruct(response, &result); err != nil {
+		return nil, fmt.Errorf("failed to parse response: %w", err)
+	}
+
+	return &result, nil
+}
