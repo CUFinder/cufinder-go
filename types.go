@@ -839,3 +839,30 @@ type CsaParams struct {
 	Bucket     string `json:"bucket"`
 	Page       int    `json:"page,omitempty"`
 }
+
+type JobChangeCompanySnapshot struct {
+	CompanyLinkedinURL string `json:"company_linkedin_url,omitempty"`
+	CompanyLinkedinID  string `json:"company_linkedin_id,omitempty"`
+	CompanyName        string `json:"company_name,omitempty"`
+	Title              string `json:"title,omitempty"`
+}
+
+type JobChange struct {
+	Type        string                   `json:"type,omitempty"`
+	LinkedinURL string                   `json:"linkedin_url,omitempty"`
+	DetectedAt  string                   `json:"detected_at,omitempty"`
+	From        JobChangeCompanySnapshot `json:"from,omitempty"`
+	To          JobChangeCompanySnapshot `json:"to,omitempty"`
+}
+
+type JcaResponse struct {
+	BaseResponse
+	JobChanges []JobChange `json:"job_changes"`
+}
+
+type JcaParams struct {
+	StartDate string `json:"start_date"`
+	EndDate   string `json:"end_date"`
+	Type      string `json:"type,omitempty"`
+	Page      int    `json:"page,omitempty"`
+}

@@ -680,3 +680,25 @@ func (s *Service) GetCompanySignals(params CsaParams) (*CsaResponse, error) {
 
 	return &result, nil
 }
+
+// JCA Service - Job Changes API
+func (s *Service) GetJobChanges(params JcaParams) (*JcaResponse, error) {
+	if params.StartDate == "" {
+		return nil, fmt.Errorf("start_date is required")
+	}
+	if params.EndDate == "" {
+		return nil, fmt.Errorf("end_date is required")
+	}
+
+	response, err := s.client.Post("/jca", params)
+	if err != nil {
+		return nil, fmt.Errorf("JCA service error: %w", err)
+	}
+
+	var result JcaResponse
+	if err := mapToStruct(response, &result); err != nil {
+		return nil, fmt.Errorf("failed to parse response: %w", err)
+	}
+
+	return &result, nil
+}

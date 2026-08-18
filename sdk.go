@@ -277,6 +277,11 @@ func (s *SDK) CSA(params CsaParams) (*CsaResponse, error) {
 	return s.service.GetCompanySignals(params)
 }
 
+// JCA - Job Changes API
+func (s *SDK) JCA(params JcaParams) (*JcaResponse, error) {
+	return s.service.GetJobChanges(params)
+}
+
 // GetClient returns the underlying HTTP client for advanced usage
 func (s *SDK) GetClient() *Client {
 	return s.client
