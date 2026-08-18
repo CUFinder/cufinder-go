@@ -759,3 +759,22 @@ func (s *Service) NormalizeUrl(params NauParams) (*NauResponse, error) {
 
 	return &result, nil
 }
+
+// GDC Service - Company Gives Demo Checker
+func (s *Service) GivesDemo(params GdcParams) (*GdcResponse, error) {
+	if params.Url == "" {
+		return nil, fmt.Errorf("url is required")
+	}
+
+	response, err := s.client.Post("/gdc", params)
+	if err != nil {
+		return nil, fmt.Errorf("GDC service error: %w", err)
+	}
+
+	var result GdcResponse
+	if err := mapToStruct(response, &result); err != nil {
+		return nil, fmt.Errorf("failed to parse response: %w", err)
+	}
+
+	return &result, nil
+}

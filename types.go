@@ -931,3 +931,12 @@ type NauResponse struct {
 type NauParams struct {
 	Url string `json:"url"`
 }
+
+type GdcResponse struct {
+	BaseResponse
+	OffersDemo string `json:"offers_demo"`
+}
+
+type GdcParams struct {
+	Url string `json:"url"`
+}

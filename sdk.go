@@ -303,6 +303,13 @@ func (s *SDK) NAU(url string) (*NauResponse, error) {
 	})
 }
 
+// GDC - Company Gives Demo Checker
+func (s *SDK) GDC(url string) (*GdcResponse, error) {
+	return s.service.GivesDemo(GdcParams{
+		Url: url,
+	})
+}
+
 // GetClient returns the underlying HTTP client for advanced usage
 func (s *SDK) GetClient() *Client {
 	return s.client
