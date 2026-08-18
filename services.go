@@ -721,3 +721,22 @@ func (s *Service) FindContactLookalikes(params ClfParams) (*ClfResponse, error) 
 
 	return &result, nil
 }
+
+// NAP Service - Normalize Person Name
+func (s *Service) NormalizePersonName(params NapParams) (*NapResponse, error) {
+	if params.PersonName == "" {
+		return nil, fmt.Errorf("person_name is required")
+	}
+
+	response, err := s.client.Post("/nap", params)
+	if err != nil {
+		return nil, fmt.Errorf("NAP service error: %w", err)
+	}
+
+	var result NapResponse
+	if err := mapToStruct(response, &result); err != nil {
+		return nil, fmt.Errorf("failed to parse response: %w", err)
+	}
+
+	return &result, nil
+}

@@ -913,3 +913,12 @@ type ClfResponse struct {
 type ClfParams struct {
 	Query string `json:"query"`
 }
+
+type NapResponse struct {
+	BaseResponse
+	NormalizedName string `json:"normalized_name"`
+}
+
+type NapParams struct {
+	PersonName string `json:"person_name"`
+}

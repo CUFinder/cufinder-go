@@ -289,6 +289,13 @@ func (s *SDK) CLF(query string) (*ClfResponse, error) {
 	})
 }
 
+// NAP - Normalize Person Name
+func (s *SDK) NAP(personName string) (*NapResponse, error) {
+	return s.service.NormalizePersonName(NapParams{
+		PersonName: personName,
+	})
+}
+
 // GetClient returns the underlying HTTP client for advanced usage
 func (s *SDK) GetClient() *Client {
 	return s.client
