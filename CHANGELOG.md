@@ -1,14 +1,17 @@
 # Changelog
 
-## 1.1.0 (February 01, 2026)
+
+## 1.3.0 (August 16, 2026)
 
 #### Features
-- **New V2 API services**: Add new V2 services including `BCD`, `CCP`, `ISC`, `CBC`, `CSC`, `CSN`, `NAO` and `NAA`
-
-
-#### Documentation
-- **Updated README.md**: Add API reference for all new services
-
+- **PSA** - Contact Signals API: Find contacts based on company signals
+- **CSA** - Company Signals API: Find companies based on signals
+- **JCA** - Job Changes API: Find job changes within a date range
+- **CLF** - Contact Lookalikes API: Find similar contacts based on a query
+- **NAP** - Person Name Normalizer: Normalize a person name
+- **NAU** - URL Normalizer: Normalize a URL
+- **GDC** - Gives Demo Checker: Check if a company offers demos
+- **COT** - Offers Free Trial Checker: Check if a company offers a free trial
 
 
 ## 1.2.0 (June 20, 2026)
@@ -18,6 +21,19 @@
 - **NAC** - Company Name Normalizer: Normalize company name with legal suffixes
 - **CAA** - Company Activity API: Get company LinkedIn activities
 - **CJA** - Company Jobs API: Search company job listings with advanced filters
+
+
+
+
+
+## 1.1.0 (February 01, 2026)
+
+#### Features
+- **New V2 API services**: Add new V2 services including `BCD`, `CCP`, `ISC`, `CBC`, `CSC`, `CSN`, `NAO` and `NAA`
+
+
+#### Documentation
+- **Updated README.md**: Add API reference for all new services
 
 
 
