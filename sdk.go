@@ -310,6 +310,13 @@ func (s *SDK) GDC(url string) (*GdcResponse, error) {
 	})
 }
 
+// COT - Company Offers Free Trial Checker
+func (s *SDK) COT(url string) (*CotResponse, error) {
+	return s.service.OffersFreeTrial(CotParams{
+		Url: url,
+	})
+}
+
 // GetClient returns the underlying HTTP client for advanced usage
 func (s *SDK) GetClient() *Client {
 	return s.client

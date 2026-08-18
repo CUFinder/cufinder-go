@@ -940,3 +940,12 @@ type GdcResponse struct {
 type GdcParams struct {
 	Url string `json:"url"`
 }
+
+type CotResponse struct {
+	BaseResponse
+	OffersFreeTrial string `json:"offers_free_trial"`
+}
+
+type CotParams struct {
+	Url string `json:"url"`
+}

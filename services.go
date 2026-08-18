@@ -778,3 +778,22 @@ func (s *Service) GivesDemo(params GdcParams) (*GdcResponse, error) {
 
 	return &result, nil
 }
+
+// COT Service - Company Offers Free Trial Checker
+func (s *Service) OffersFreeTrial(params CotParams) (*CotResponse, error) {
+	if params.Url == "" {
+		return nil, fmt.Errorf("url is required")
+	}
+
+	response, err := s.client.Post("/cot", params)
+	if err != nil {
+		return nil, fmt.Errorf("COT service error: %w", err)
+	}
+
+	var result CotResponse
+	if err := mapToStruct(response, &result); err != nil {
+		return nil, fmt.Errorf("failed to parse response: %w", err)
+	}
+
+	return &result, nil
+}
